@@ -1,14 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import '../assets/css/footer.css'
 
 function Footer() {
   return (
-    // <div class="h"></div>
     <footer class="footer">
         <div class="main-content">
             <div class="body">
-                <div class="row">
+                <div class="column">
                     <div class="title">
-                        <h2>NHATROGIARESAIGON.COM.VN</h2>
+                        <h2>NHATROGIARESAIGON</h2>
                     </div>
                     <div class="footer-item">
                         <div class="icon">
@@ -32,16 +33,17 @@ function Footer() {
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="column">
                     <div class="title">
                         <h2>VỀ CHÚNG TÔI</h2>
                     </div>
                     <div class="footer-item">
-                        <a href="#" class="info">Giới thiệu</a>
+                        <Link to="../About-Us" className="item">Giới thiệu</Link>
                     </div>
 
                     <div class="footer-item">
-                        <a href="#" class="info">Chính sách bảo mật</a>
+                        <Link to="../sercurity-policy" className="item">Chính sách bảo mật</Link>
+
                     </div>
 
                     <div class="footer-item">
@@ -49,7 +51,7 @@ function Footer() {
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="column">
                     <div class="title">
                         <h2>THÔNG TIN</h2>
                     </div>
@@ -62,13 +64,13 @@ function Footer() {
                         <a href="#" class="info">Tin tức</a>
                     </div>
                 </div>
-
-                <div class="row">
+{/* 
+                <div class="column">
                     <div class="title">
                         <h2>PHƯƠNG THỨC THANH TOÁN</h2>
                     </div>
                     <img src="./assets/img/index-img/phuong-thuc-thanh-toan-final.png" alt=""  class="payment"/>
-                </div>
+                </div> */}
             </div>
         </div>
     </footer>

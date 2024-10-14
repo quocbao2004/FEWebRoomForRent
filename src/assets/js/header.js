@@ -11,5 +11,8 @@ document.querySelectorAll("active").forEach(n =>
     hamburger.classList.remove("active");
 }))
 
-document.getElementById("header").innerHTML = fetch('partials/header.html').then(response => response.text());
-document.getElementById("footer").innerHTML = fetch('partials/footer.html').then(response => response.text());
+
+// document.getElementById("header").innerHTML = fetch('partials/header.html').then(response => response.text());
+// document.getElementById("footer").innerHTML = fetch('partials/footer.html').then(response => response.text());
+
+

@@ -1,0 +1,30 @@
+.Sercurity-policy {
+    margin: 30px 0;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.Sercurity-policy .main-content {
+    padding: 20px;
+    align-items: center;
+    box-shadow: -15px 12px 15px -3px rgba(0,0,0,0.1);
+}
+
+.Sercurity-policy h1 {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+.Sercurity-policy .sub-title {
+    font-size: 3rem;
+}
+
+.Sercurity-policy .desc {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+hr {
+    height: 5px;
+    border-radius: 5px;
+    background-color: #2150ee;
+}
