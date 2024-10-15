@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Header() {
   return (
@@ -29,7 +30,7 @@ function Header() {
                 </nav>
                 {/* <!-- Login --> */}
                 <div class="action">
-                    <a href="#!" class="btn sign-up-btn">Đăng nhập</a>
+                    <Link to='/login' class="btn sign-up-btn">Đăng nhập</Link>
                 </div>
 
                 <div class="hamburger">
