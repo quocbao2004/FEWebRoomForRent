@@ -1,125 +1,67 @@
-import React from 'react';
-import { useState } from 'react';
-import LoginService from '../services/LoginService';
+import React, { useState } from 'react';
+// import LoginService from '../services/LoginService';
 import axios from 'axios';
-// import BuildingSearchService from '../services/BuildingSearchService'
+import '../assets/css/loginPages.css';
+import { Link } from 'react-router-dom';
+import Footer from '../components/Footer.jsx';
+import logo from '../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png'
 
-function LoginPages({ api }) {
-    
-    const [userData, setUserData] = useState({
-        phone: "",
-        password: ""
-    });
+function LoginPages() {
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setUserData({ ...userData, [e.target.name]: value });
-    }
-    let [buildings, setBuildings] = useState("");
-    function BuildingSearchService(api) {
-        axios.get(api + "/building")
-            .then(function(res) {  
-                return (
-                    setBuildings(res.data.map((it, idx) => {
-                        return (
-                            <div key={it.id}>
-                                <div>
-                                    <label htmlFor="">Car fee</label>
-                                    <div>{it.carfee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Deposit</label>
-                                    <div>{it.deposit}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">District</label>
-                                    <div>{it.district}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Electricity Fee</label>
-                                    <div>{it.electricityfee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Floor Area</label>
-                                    <div>{it.floorArea}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Images</label>
-                                    <div>
-                                        {it.images.map((image, idx) => {
-                                            <div index = {image.id}>{image}</div>
-                                        })}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Manager Name</label>
-                                    <div>{it.managerName}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Manager Phone</label>
-                                    <div>{it.managerphone}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Motor fee</label>
-                                    <div>{it.motofee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Name</label>
-                                    <div>{it.name}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Rent Price</label>
-                                    <div>{it.rentPrice}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Service Fee</label>
-                                    <div>{it.servicefee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Street</label>
-                                    <div>{it.street}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Total Number Of Available Rooms</label>
-                                    <div>{it.totalNumberOfAvailableRooms}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Type</label>
-                                    <div>{it.type}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Ward</label>
-                                    <div>{it.ward}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Water fee</label>
-                                    <div>{it.waterfee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Description</label>
-                                    <div>{it.description}</div>
-                                </div>
-                            </div>
-                        )
-                    }))
-                )
-            })
-            .catch(function(err) {console.log(err);})
-    }
-    BuildingSearchService(api);
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Ngăn chặn refresh trang khi submit
+        try {
+            const response = await axios.post('/api/login', {
+                phone,
+                password
+            });
+
+            // Xử lý kết quả trả về sau khi đăng nhập
+            console.log(response.data);
+        } catch (error) {
+            console.error("Error logging in", error);
+        }
+    };
 
     return (
         <>
-            <form action="">
-                <label htmlFor="phone">Phone number</label>
-                <input type="text" name="phone" id="phone" onChange={handleChange}/>
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" id="password" onChange={handleChange}/>
-                <button onClick={e => LoginService(e, userData, api)}>Login</button>
-            </form>
-            { buildings }
+
+            <div className="login">
+                <div className="body">
+                    <div className="back">
+                    <Link to="../home">
+                        <img src={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
+                    </Link>
+
+                    <Link to="../home" className="backToHome">
+                        Trang chủ
+                    </Link>
+                    </div>
+                    <div class="wrapper">
+                    <form action="">
+                    <h1>Login</h1>
+                    <div class="input-box">
+                        <input type="text" placeholder="Username" required/>
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" placeholder="Password" required/>
+                        <i class='bx bxs-lock-alt' ></i>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox"/>Remember Me</label>
+                        <a href="#">Forgot Password</a>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            {/* <Footer /> */}
         </>
-    )
+    );
 }
 
 export default LoginPages;

@@ -1,4 +1,11 @@
 /* Home */
+.overlay-text {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5); /* Nền màu đen mờ */
+    color: #fff; /* Màu chữ sáng */
+    padding: 10px;
+}
+
 .home .home-img {
     width: 100%;
     height: 100vh;
@@ -13,11 +20,13 @@
     position: absolute;
     bottom: 100px;
     left: 50px;
-    width: 800px;
+    width: calc(100% - 100px);
     color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .home .slider .title {
+    display: inline-block;
     font-size: 4.4rem;
     font-weight: 700;
     margin: 0 0 10px 0;
@@ -27,45 +36,91 @@
     font-size: 1.8rem;
     font-weight: 400;
     line-height: 1.6;
+    display: inline-block;
 }
 
 /* introduction */
-.introduction {
+#introduction {
     width: 100%;    
-    margin: 30px 0;
+    margin: 40px 0;
 }
 
-.introduction .row {
-    display: flex;
-    justify-content: center;
+#introduction .row {
+    margin-top: 100px;
     align-items: center;
+    box-shadow: 0px 0px 36px 1px rgba(0,0,0,0.3);
+    border-radius: 18px;
+    padding-bottom: 30px;
 }
 
-.introduction .row .title {
-    width: 300px;
+#introduction .row .title {
+    padding: 30px 40px 0 ;
     text-align:start;
+    font-size: 4rem;
+    white-space: 2px;
+    box-shadow: inset 25px 23px 100px 0px rgba(0,0,0,0.3);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    padding-bottom: 10px;
 }
 
-.introduction .row .item {
-    margin: 15px 0;
+#introduction .row .item {
+    margin: 30px 0;
+    padding-left: 20px;
+    padding-top: 10px;
+    margin-right: 20px;
+    font-size: 2.5rem;
+    list-style-type: none;
+    line-height: 1.5;
+    font-weight: 600;
+    border-bottom: 5px solid #333;
+    border-left: 5px solid #333;
+    border-radius: 40px;
 }
 
+#introduction .row .item:hover {
+    padding: 20px;
+    background-color: #333;
+    color: #Fff;
+    border-radius: 33px;
+    transition: all 0.7s ease-in-out;
+}
 
+#introduction .row .item .desc {
+    /* color: #333; */
+    font-size: 2rem;
+    font-weight: 400;
+    padding-bottom: 10px;
+}
+
+#introduction .row .item .desc:hover {
+    color: #fff;
+}
+
+/* Featured */
 .featured {
-    border: 3px solid #5b5252;
-    padding: 30px;
+    margin-top: 150px;
+}
+
+.featured .main-content {
+    margin-top: 30px; 
     border-radius: 14px;
     margin-bottom: 30px;
+    border: 3px solid #5b5252;
     box-shadow: -15px 15px 2px -5px rgba(0,0,0,0.1);
 }
 
 .title-featured {
     margin-top: -5px;
-    font-size: 3rem;
+    padding: 20px 0 20px 40px;
+    font-size: 4rem;
+    box-shadow: inset 25px 23px 100px 0px rgba(0,0,0,0.3);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
 }
 
 .featured .thumb {
-    width: 300px;
+    width: 100%;
     height: 200px;
     object-fit: cover;
     border-top-left-radius: 12px;
@@ -73,7 +128,7 @@
 }
 
 .featured .item {
-    width: 302px;
+    width: 300px;
     border: 2px solid #333;
     border-radius: 12px;
     margin: 0 10px;
@@ -81,6 +136,19 @@
 
 .featured .body {
     margin: -15px 10px 0 20px;
+}
+
+.featured .list {
+    padding: 30px;
+}
+
+.featured .list .item {
+    margin-top: 50px;
+}
+ 
+.featured .list .item:hover  {
+    background-color: #ddd;
+    transition: all 0.4s ease-in-out;
 }
 
 .featured .body .title {
@@ -125,33 +193,35 @@
 }
 
 /* Contact */
-.contact {
-    height:100vh;
-    margin-top: 200px;
+#contact {
+    /* height:100vh; */
+    margin: 200px 0;
+    background: #FFFCF4;
 }
 
-.contact .body {
+#contact .body {
     width: 100%;
-    background: #FFFCF4;;
     border-radius: 20px;
+    box-shadow: 0px 0px 15px 10px rgba(0,0,0,0.1);
+    padding-bottom: 50px;
 }
 
-.contact .contact-title {
+#contact .contact-title {
     padding: 30px 0 0 40px;
     font-size: 4rem;
 }
 
-.contact .contact-content {
+#contact .contact-content {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.contact .contact-content h3 {
+#contact .contact-content h3 {
     font-size: 3rem;
 }
 
-.contact .contact-content .desc {
+#contact .contact-content .desc {
     width: 75%;
     font-size: 1.8rem;
     color: #333;
@@ -159,57 +229,94 @@
     line-height: 1.5;
 }
 
-.contact .submit-info {
+#contact .submit-info {
     width: 75%;
     margin-top: 20px;
     margin-right: auto;
     margin-left: auto;
 }
 
-.contact .submit-info .row {
+#contact .submit-info .row {
     display: flex;
 }
 
-.contact .submit-info .item {
+#contact .submit-info .item {
     margin: 10px 10px 10px 0;
 }
 
-.contact .submit-info .item:first-child {
+#contact .submit-info .item:first-child {
     margin-right: 80px;
 }
 
-.contact .submit-info .item label {
+#contact .submit-info .item label {
     font-size: 1.8rem;
     margin-bottom: 10px;
     display: block;
 }
 
-.contact .submit-info .item input {
+#contact .submit-info .item input {
     height: 50px;
     width: 300px;
     border-radius: 12px;
     font-size: 1.8rem;
 }
 
-.contact .action {
-    
-}
-
-.contact .btn-submit {
+#contact .btn-submit {
     margin-top: 20px;
 }
+
+#contact .contact-manager {
+    margin-top: 20px;
+}
+
+#contact .contact-manager .desc{
+    font-size: 2.5rem;
+    font-weight: 600;
+} 
+
+#contact .list-icon {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 20px;
+    font-size: 50px;
+}
+
+#contact .list-icon .font-icon:first-child {
+    margin-right: 30px;
+    margin-bottom: 5px;
+    color: blue;
+}
+
+#contact .list-icon .font-icon:last-child {
+    margin-left: 30px;
+    color: red;
+}
+
 
 #customerDesc {
     resize: both; /* Cho phép kéo ở cả hai chiều (ngang và dọc) */
     max-width: 500px; /* Giới hạn chiều rộng tối đa */
-    min-width: 150px; /* Giới hạn chiều rộng tối thiểu */
-    max-height: 100px; /* Giới hạn chiều cao tối đa */
-    min-height: 50px; /* Giới hạn chiều cao tối thiểu */
+    min-width: 250px; /* Giới hạn chiều rộng tối thiểu */
+    max-height: 200px; /* Giới hạn chiều cao tối đa */
+    min-height: 100px; /* Giới hạn chiều cao tối thiểu */
+    font-size: 1.8rem;
+    border-radius: 8px;
+    border: 2px solid #333;
   }
 
 @media(max-width: 1134px) {
+    .home .slider .slider-content {
+        position: absolute;
+        bottom: 100px;
+        left: 50px;
+        color: #fff;
+        flex-wrap: wrap; 
+    }
+
     .featured .list {
         display: block;
+        padding-top: 10px;
     }
 
     .featured .list .item {
@@ -220,25 +327,20 @@
     }
 
     .featured .thumb {
-        width: 400px;
         height: 350px;
         object-fit: cover;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
     }
 
-    .contact {
-        height: 100vh;
-        /* position: relative;*/
-    }
-    .contact .row {
+    #contact .row {
         flex-wrap: wrap;
     }
 
-    .contact .row .item {
+    #contact .row .item {
         display: block;
     }
-    .contact .submit-info .item input {
+    #contact .submit-info .item input {
         height: 50px;
         width: 200px;
         border-radius: 12px;
@@ -256,7 +358,6 @@
         color: #fff;
     }
     .home .slider .title {
-        width: 500px;
         font-size: 2.4rem;
         font-weight: 700;
         margin: 0 0 10px 0;
@@ -269,25 +370,16 @@
     }
 
     /* Featured */
-    .featured {
-        border: 3px solid #5b5252;
-        padding: 30px;
-        border-radius: 14px;
-    }
 
     /* Contact */
-    .contact {
-        height: 130vh;
-        /* position: relative; */
-    }
-    .contact .row {
+    #contact .row {
         flex-wrap: wrap;
     }
 
-    .contact .row .item {
+    #contact .row .item {
         display: block;
     }
-    .contact .submit-info .item input {
+    #contact .submit-info .item input {
         height: 50px;
         width: 200px;
         border-radius: 12px;
@@ -300,10 +392,10 @@
         position: absolute;
         bottom: 25%;
         left: 50px;
+        width: 300px;
         color: #fff;
     }
     .home .slider .title {
-        width: 350px;
         font-size: 2.4rem;
         line-height: 1;
         font-weight: 700;
@@ -311,7 +403,6 @@
     } 
 
     .home .slider .desc {
-        width: 350px;
         font-size: 1.6rem;
         font-weight: 400;
         line-height: 1.6;
@@ -320,21 +411,17 @@
     /* Featured */
     .featured .list .item {
         width: 253px;
+        /* width: calc(100% - 20px); */
         margin-bottom: 50px;
         margin-left: auto;
         margin-right: auto;
     }
 
     .featured .thumb {
-        width: 250px;
         height: 200px;
         object-fit: cover;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
-    }
-
-    .contact {
-        height: 130vh;
     }
 
     #customerDesc {

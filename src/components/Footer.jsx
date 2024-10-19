@@ -1,6 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import '../assets/css/footer.css'
+import cash from '../assets/img/index-img/pay/payment-removebg-preview.png';
+import momo from '../assets/img/index-img/pay/momo_icon_square_pinkbg.svg';
+import ShopeePay from '../assets/img/index-img/pay/Logo-ShopeePay-V.webp';
+import Bank from '../assets/img/index-img/pay/icons8-bank-48.png';
+import ZaloPay from '../assets/img/index-img/pay/Logo FA-14.png';
 
 function Footer() {
   return (
@@ -15,21 +20,23 @@ function Footer() {
                         <div class="icon">
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
-                        <p class="info">32. Đường E, Phường 7, Quận 8, Thành phố Hồ Chí Minh</p>
+                        <p class="info">106 Đường số 4, Phường 7, Quận 8, TP.HCM</p>
                     </div>
     
                     <div class="footer-item">
                         <div class="icon">
                             <i class="fa-solid fa-phone"></i>
                         </div>
-                        <p class="info">0865.479.500</p>
+                        <a href="tel:+0909437393" className="info">0909.437.393</a>
                     </div>
     
                     <div class="footer-item">
                         <div class="icon">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
-                        <p class="info">daoquocbao2k04@gmail.com</p>
+                        <a href="mailto:nguyenminhchung437393@gmail.com" className="info">
+                            nguyenminhchung437393@gmail.com
+                        </a>
                     </div>
                 </div>
 
@@ -38,7 +45,7 @@ function Footer() {
                         <h2>VỀ CHÚNG TÔI</h2>
                     </div>
                     <div class="footer-item">
-                        <Link to="../About-Us" className="item">Giới thiệu</Link>
+                        <Link to="../home#introduction" className="item">Giới thiệu</Link>
                     </div>
 
                     <div class="footer-item">
@@ -47,7 +54,8 @@ function Footer() {
                     </div>
 
                     <div class="footer-item">
-                        <a href="#" class="info">Liên hệ</a>
+                        {/* <a href="#contact" class="info">Liên hệ</a> */}
+                        <Link to="../home#contact" className="item">Liên hệ</Link>
                     </div>
                 </div>
 
@@ -64,13 +72,19 @@ function Footer() {
                         <a href="#" class="info">Tin tức</a>
                     </div>
                 </div>
-{/* 
+
                 <div class="column">
                     <div class="title">
                         <h2>PHƯƠNG THỨC THANH TOÁN</h2>
                     </div>
-                    <img src="./assets/img/index-img/phuong-thuc-thanh-toan-final.png" alt=""  class="payment"/>
-                </div> */}
+                    <div class="footer-item">
+                        <img src={cash} alt="" className="img-pay" title="tiền mặt"/>
+                        <img src={momo} alt="" className="img-pay" title="Momo Pay"/>
+                        <img src={ShopeePay} alt="" className="img-pay" title="Shopee Pay"/>
+                        <img src={Bank} alt="" className="img-pay" title="Bank"/>
+                        <img src={ZaloPay} alt="" className="img-pay" title="Zalo Pay"/>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>

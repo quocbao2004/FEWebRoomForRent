@@ -20,17 +20,12 @@ function SecurityPolicy(obj) {
             <ul className="list">
                 <li className="item">
                     <p className="desc">
-                        Tên, ngày sinh, địa chỉ email, địa chỉ bưu điện, số điện thoại, số điện thoại di động, chi tiết tài chính, chẳng hạn như thẻ thanh toán mà bạn sử dụng để mua sản phẩm…
-                    </p>
-                </li>
-                <li className="item">
-                    <p className="desc">
                         Thông tin về thiết bị của bạn (chẳng hạn như địa chỉ IP, là mã số để xác định thiết bị của bạn có thể cung cấp thông tin về quốc gia, khu vực hoặc thành phố nơi bạn ở)
                     </p>
                 </li>
                 <li className="item">
                     <p className="desc">
-                    Thông tin liên quan đến cách bạn sử dụng và tương tác với các trang web, ứng dụng và dịch vụ của chúng tôi. Đôi khi các trang web và ứng dụng của chúng tôi có thể chứa các liên kết đến các trang web và dịch vụ không thuộc nhóm dịch vụ của báo Thanh Niên. Các trang web và dịch vụ này có chính sách bảo mật của riêng họ. Nếu bạn nhấp vào liên kết đến các trang web và ứng dụng không phải của báo Thanh Niên, bạn nên đọc chính sách bảo mật được hiển thị trên trang web của họ.
+                    Thông tin liên quan đến cách bạn sử dụng và tương tác với các trang web, ứng dụng và dịch vụ của chúng tôi. Đôi khi các trang web và ứng dụng của chúng tôi có thể chứa các liên kết đến các trang web. Các trang web và dịch vụ này có chính sách bảo mật của riêng họ. Nếu bạn nhấp vào liên kết đến các trang web và ứng dụng khác, bạn nên đọc chính sách bảo mật được hiển thị trên trang web của họ.
                     </p>
                 </li>
             </ul>
@@ -86,9 +81,9 @@ Chúng tôi sử dụng cookie theo nhiều cách để cải thiện trải ngh
             </ul>
             <h2 className="sub-title">Liên hệ với chúng tôi thông qua</h2>
             <ul className="list">
-                <li className="item">Gmail: </li>
-                <li className="item">Số điện thoại: </li>
-                <li className="item">Địa chỉ: </li>
+                <li className="item">Gmail: nguyenminhchung437393@gmail.com</li>
+                <li className="item">Số điện thoại: 0909.437.393</li>
+                <li className="item">Địa chỉ: 106 Đường số 4, Phường 7, Quận 8, TP.HCM</li>
             </ul>
             <h2 className="sub-title">Các thay đổi đối với chính sách bảo mật này</h2>
             <p className="desc">Nếu chúng tôi quyết định thay đổi chính sách bảo mật của mình, chúng tôi sẽ đăng các thay đổi ở đây. Nếu những thay đổi là quan trọng, chúng tôi cũng có thể chọn gửi email cho tất cả người dùng đã đăng ký của chúng tôi với các chi tiết mới Cập nhật lần cuối: ngày 14 tháng 10 năm 2024</p>

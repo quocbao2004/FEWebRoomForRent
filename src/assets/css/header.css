@@ -8,6 +8,7 @@
 
 html {
     font-size: 62.5%;
+    position: relative;
 }
 
 body {
@@ -47,6 +48,7 @@ a {
     opacity: 0.9;
     cursor: pointer;
     background-color: #5f5b53;
+    transition: all 0.4s ease-in-out;
 }
 
 .heading {
@@ -82,8 +84,9 @@ a {
 /* Header */
 
 .header {
-    background-color: #ef1749;
-    background-image: linear-gradient(225deg, #ef1749 0%, #784BA0 50%, #2B86C5 100%);
+    /* background-color: #ef1749;
+    background-image: linear-gradient(225deg, #ef1749 0%, #784BA0 50%, #2B86C5 100%); */
+    background-color: #2B86C5;
 }
 
 .header.fixed {
@@ -112,22 +115,24 @@ a {
     position: relative;
     padding: 8px 21px;
     font-size: 1.9rem;
-    /* color: #5f5b53; */
+    color: #171100;
+    font-weight: 500;
     line-height: 1.5;
     display: flex;
     align-items: center;
 }
 
 .nav .active a:hover{
-    color: #663a07;
+    /* color: #663a07; */
 }
 
 .nav a:hover,
 .nav li.active a {
     text-shadow: 1px 0 0 currentColor;
-    /* color: #171100; */
     color: #fff;
-
+    border-radius: 999px;
+    background-color: #e7a115;
+    transition: all 0.4s ease-in-out;
 }
 
 .header .sign-in-btn {
@@ -153,22 +158,6 @@ a {
     transition: all 0.3s ease-in-out;
     background-color: #333;
 }
-/* 
-@media (max-width: 600px) {
-    .nav.responsive {
-      position: relative;
-    }
-    .nav.responsive .hamburger {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .nav.responsive a {
-      float: none;
-      display: block;
-      text-align: left;
-    }
-  } */
 
 @media(max-width:768px) {
     .hamburger {
@@ -192,7 +181,7 @@ a {
     .nav{
         display: flex;
         position: absolute;
-        left: -100%;
+        left: calc(-100% - 48px);
         top: 138px;
         gap: 0;
         flex-direction: row;
@@ -217,6 +206,15 @@ a {
         color: #333;
     }
 
+    .nav a:hover,
+    .nav li.active a {
+    text-shadow: 1px 0 0 currentColor;
+    color: #fff;
+    width: 100%;
+    border-radius: 999px;
+    background-color: #5f5b53   ;
+}
+
     .nav .active {
         display: flex;
         width: 100%;
@@ -225,7 +223,7 @@ a {
 
     .nav.active{
         display: flex;
-        left: 0;
-        right: 0;
+        width: calc(100% + 70px);
+        left: -48px;
     }
 } 

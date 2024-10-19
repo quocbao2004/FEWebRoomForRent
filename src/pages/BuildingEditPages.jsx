@@ -52,6 +52,8 @@ function BuildingEditPages(building) {
                     </option>
                     <option value="Nguyên căn">Nguyên căn</option>
                     <option value="Phòng trọ">Phòng trọ</option>
+                    <option value="Phòng trọ">Kho</option>
+                    <option value="Phòng trọ">Đất</option>
                   </select>
                   </div>
               </div>

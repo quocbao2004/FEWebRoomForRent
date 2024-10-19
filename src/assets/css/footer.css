@@ -39,6 +39,11 @@
     color:#ff003ce8;
 }
 
+.footer .footer-item .img-pay {
+    width: 50px;
+    margin: 10px;
+}
+
 p {
     margin:  0;
 }
