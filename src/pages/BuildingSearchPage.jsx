@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import '../assets/css/buildingSearch.css';
+import { Link } from 'react-router-dom';
 
 // Import image for test
 import featured1 from '../assets/img/home-img/featured.avif';
@@ -122,7 +123,7 @@ function BuildingSearchPages() {
                     </a>
                     <div class="body">
                       <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
+                      <p class="sub-title line-clamp">Giá: 30tr/ tháng</p>
                       <div class="info">
                         <p className="desc line-clamp">
                           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
@@ -130,7 +131,8 @@ function BuildingSearchPages() {
                       </div>
 
                       <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
+                        <Link to="../detail" className='btn btn-seen'>
+                        Xem</Link>
                       </div>
                     </div> 
                   </div>

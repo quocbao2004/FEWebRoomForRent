@@ -51,12 +51,6 @@ function Header() {
                     Thuê đất
                 </Link>
               </li>
-
-              <li>
-              <Link to="../more-service" className="item">
-                    Dịch vụ khác
-                </Link>
-              </li>
             </ul>
           </nav>
 

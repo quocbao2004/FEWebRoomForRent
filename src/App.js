@@ -7,7 +7,8 @@ import HomePage from './pages/HomePage';
 import SecurityPolicy from './pages/Security-Policy';
 import Warehouse from './pages/Warehouse.jsx';
 import Land from './pages/Land.jsx';
-import MoreService from './pages/MoreService.jsx';
+import BuildingDetail from './pages/BuildingDetail.jsx';
+import ListCustomer from './pages/ListCustomer.jsx';
 
 const api = "http://localhost:8080/api";
 
@@ -24,7 +25,8 @@ function App() {
         <Route path = 'login' element = {<LoginPages/>}/>
         <Route path = 'warehouse' element = {<Warehouse/>}/>
         <Route path = 'land' element = {<Land/>}/>
-        <Route path = 'more-service' element = {<MoreService/>}/>
+        <Route path = '/detail' element = {<BuildingDetail/>}/>
+        <Route path = '/customer' element = {<ListCustomer/>}/>
       </Routes>
     </BrowserRouter>
   );

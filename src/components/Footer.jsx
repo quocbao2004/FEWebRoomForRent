@@ -27,14 +27,14 @@ function Footer() {
                         <div class="icon">
                             <i class="fa-solid fa-phone"></i>
                         </div>
-                        <a href="tel:+0909437393" className="info">0909.437.393</a>
+                        <a href="https://zalo.me/0909437393" target="_blank" className="info">0909.437.393</a>
                     </div>
     
                     <div class="footer-item">
                         <div class="icon">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
-                        <a href="mailto:nguyenminhchung437393@gmail.com" className="info">
+                        <a href="mailto:nguyenminhchung437393@gmail.com" target="_blank" className="info">
                             nguyenminhchung437393@gmail.com
                         </a>
                     </div>
