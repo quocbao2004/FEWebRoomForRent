@@ -39,6 +39,14 @@ function BuildingSearchPage({ api }) {
             .catch(err => console.log(err))
     }
 
+    const districts = [
+        "Quận 1", "Quận 3", "Quận 4", "Quận 5", "Quận 6", "Quận 7", "Quận 8", 
+        "Quận 10", "Quận 11", "Quận 12", "Quận Bình Thạnh", "Quận Tân Bình", 
+        "Quận Tân Phú", "Quận Phú Nhuận", "Huyện Bình Chánh", "Thành Phố Thủ Đức", 
+        "Quận Bình Tân", "Quận Gò Vấp", "Huyện Cần Giờ", "Huyện Củ Chi", 
+        "Huyện Hóc Môn", "Huyện Nhà Bè"
+    ];
+
   useEffect(() => {
     axios.get(api + "/building")
       .then(res => {
@@ -51,20 +59,82 @@ function BuildingSearchPage({ api }) {
     <div>
         <Header/>
         <h1>Building search page</h1>
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="name" id="" placeholder='Tên bất động sản'/>
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="ward" id="" placeholder='Phường'/>
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="type" id="" placeholder='Loại'/>
+        <div className="body">
+              <div className="info show">
+                  <div className="item">
+                    <label htmlFor="name">Tên bất động sản</label>
+                    <input type="text" name="name" id="name" onChange={buildingSearchRequestHangleChange}/>
+                  </div>
 
-        <select name="type" id="type" onChange={buildingSearchRequestHangleChange}>
-            <option value="PHONG_TRO">Phòng Trọ</option>
-            <option value="NGUYEN_CAN">Nguyên Căn</option>
-        </select>
+                  <div className="item">
+                    <label htmlFor="type">Loại</label>
+                    <select name="type" id="type" defaultValue="" onChange={buildingSearchRequestHangleChange}>
+                      <option value="">Chọn loại</option>
+                      <option value="Nguyên căn">Nguyên căn</option>
+                      <option value="Phòng trọ">Phòng trọ</option>
+                      <option value="Kho">Kho</option>
+                      <option value="Đất">Đất</option>
+                    </select>
+                  </div>
 
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="district" id="" placeholder='Quận'/>
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="street" id="" placeholder='Đường'/>
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="floorArea" id="" placeholder='Diện tích'/>
-        <input type="text" onChange={buildingSearchRequestHangleChange} name="rentPrice" id="" placeholder='Giá'/>
-        <button type="submit" onClick={() => BuildingSearchService(api, setRecords)}>Tìm Kiếm</button>
+                  <div className="item">
+                    <label htmlFor="street">Đường</label>
+                    <input type="text" name="street" id="street" onChange={buildingSearchRequestHangleChange}/>
+                  </div>
+
+                  <div className="item">
+                    <label htmlFor="ward">Phường</label>
+                    <input type="text" name="ward" id="ward" onChange={buildingSearchRequestHangleChange}/>
+                  </div>
+
+                  <div className="item">
+                    <label htmlFor="district">Quận</label>
+                    <select name="district" id="district" defaultValue="" onChange={buildingSearchRequestHangleChange}>
+                      <option value="">Chọn quận</option>
+                      {districts.map((district, index) => (
+                        <option key={index} value={district}>
+                          {district}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="border-item">
+                    <div className="item">
+                      <label htmlFor="floorAreaFrom">Diện tích tối thiểu</label>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input type="number" name="floorAreaFrom" id="floorAreaFrom" placeholder='ex: 16,5'/>
+                        <span className="metvuong">m²</span>
+                      </div>
+                    </div>
+                    <div className="item">
+                      <label htmlFor="floorAreaTo">Diện tích tối đa</label>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input type="number" name="floorAreaTo" id="floorAreaTo" placeholder="ex: 20" />
+                        <span className="metvuong">m²</span>
+                      </div>
+                    </div>
+                    <div className="item">
+                      <label htmlFor="rentPriceFrom">Giá thuê tối thiểu</label>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input type="number" name="rentPriceFrom" id="rentPriceFrom" placeholder="ex: 1,6" />
+                        <span className="metvuong">Triệu</span>
+                      </div>
+                    </div>
+                    <div className="item">
+                      <label htmlFor="rentPriceTo">Giá thuê tối đa</label>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input type="number" name="rentPriceTo" id="rentPriceTo" placeholder="ex: 3" />
+                        <span className="metvuong">Triệu</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="action">
+                  <button onClick={() => BuildingSearchService(api, setRecords)} className="btn submit-btn">Tìm kiếm</button>
+                </div>
+                </div>
+
+            </div>
         {localStorage.getItem("token") != null ? <button onClick={navigateToBuildingCreatePage}>Create Building</button> : null}
         {               
             records.map(function(it, idx) {

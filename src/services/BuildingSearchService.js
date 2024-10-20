@@ -8,8 +8,10 @@ export function BuildingSearchService( api, setRecords ) {
     params.append("type", buildingSearchRequest.type);
     params.append("district", buildingSearchRequest.district);
     params.append("street", buildingSearchRequest.street);
-    params.append("rentPrice", buildingSearchRequest.rentPrice);
-    params.append("floorArea", buildingSearchRequest.floorArea);
+    params.append("rentPriceFrom", buildingSearchRequest.rentPriceFrom);
+    params.append("rentPriceTo", buildingSearchRequest.rentPriceTo);
+    params.append("floorAreaFrom", buildingSearchRequest.floorAreaFrom);
+    params.append("floorAreaTo", buildingSearchRequest.floorAreaTo);
 
     axios.get(api + "/building?" + params) 
         .then(res => setRecords(res.data))
@@ -23,8 +25,10 @@ export let buildingSearchRequest = {
     type: "",
     district: "",
     street: "",
-    floorArea: "",
-    rentPrice: ""
+    floorAreaFrom: "",
+    floorAreaTo: "",
+    rentPriceFrom: "",
+    rentPriceTo: ""
 };
 
 export function buildingSearchRequestHangleChange(e) {
