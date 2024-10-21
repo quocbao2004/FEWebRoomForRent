@@ -156,144 +156,51 @@ function BuildingSearchPage({ api }) {
             <div className="main-content">
               <h2 className="title-featured">Danh sách sản phẩm</h2>
               <div className="list">
-
-                {records.map(function (it, idx) {
-                  if(it.images.length == 0) return;                
-                  return (
-                    <div key={idx} className="item">
-                      <a href="#">
-                        {/* <img src={} alt="Nikko Apartments" class="thumb" /> */}
-                        {
-                          let image1 = it.images[0];
-                          it.images.map((image, idx) => {
-                            let lastIdxOfDot = image.lastIndexOf(".");
-                            let s = image.substring(lastIdxOfDot);
-                            return (
-                              <div key={idx}>
-                                {
-                                  s.localeCompare(".mp4") == 0 ?
-                                    <video class="thumb" width="750" height="500" controls key={idx}>
-                                      <source src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} type="video/mp4" />
-                                    </video> :
-                                    <img class="thumb" src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} key={idx} />
-                                }
-                              </div>
-                            )
-                          })
-                        }
-                      </a>
-                      <div class="body">
-                        <h3 class="title line-clamp">
-                          <a href="#" class="line-clamp">{it.name}</a>
-                        </h3>
-                        <p class="sub-title line-clamp">Giá: {it.rentPrice}tr/ tháng</p>
-                        <div class="info">
-                          <p className="desc line-clamp">{it.description}</p>
-                        </div>
-
-                        <div className="action">
-                          <Link to="../detail" className='btn btn-seen'>
-                            Xem</Link>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-
-
-
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* {
-        records.map(function (it, idx) {
-          return (
-            <div key={idx}>
-              <div>Id: {it.id}</div>
-              <div>
-                <label htmlFor="">Car fee</label> {it.carfee}
-              </div>
-              <div>
-                <label htmlFor="">Deposit</label> {it.deposit}
-              </div>
-              <div>
-                <label htmlFor="">District</label> {it.district}
-              </div>
-              <div>
-                <label htmlFor="">Electricity Fee</label> {it.electricityfee}
-              </div>
-              <div>
-                <label htmlFor="">Floor Area</label> {it.floorArea}
-              </div>
-              <div>
-                <label htmlFor="">Images</label>
                 {
-                  it.images.map((image, idx) => {
-                    let lastIdxOfDot = image.lastIndexOf(".");
-                    let s = image.substring(lastIdxOfDot);
+                  records.map(function (it, idx) {
                     return (
-                      <div key={idx}>
-                        {
-                          s.localeCompare(".mp4") == 0 ?
-                            <video width="750" height="500" controls key={idx}>
-                              <source src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} type="video/mp4" />
-                            </video> :
-                            <img src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} key={idx} />
-                        }
+                      <div key={idx} className="item">
+                        <a href="#">
+                          {
+                            it.images.map((image, idx) => {
+                              if(idx > 0) return;
+                              let lastIdxOfDot = it.images[0].lastIndexOf(".");
+                              let s = image.substring(lastIdxOfDot);
+                              return (
+                                <div key={idx}>
+                                  {
+                                    s.localeCompare(".mp4") == 0 ?
+                                      <video class="thumb" width="750" height="500" controls key={idx}>
+                                        <source src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} type="video/mp4" />
+                                      </video> :
+                                      <img class="thumb" src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} key={idx} />
+                                  }
+                                </div>
+                              )
+                            })
+                          }
+                        </a>
+                        <div class="body">
+                          <h3 class="title line-clamp">
+                            <a href="#" class="line-clamp">{it.name}</a>
+                          </h3>
+                          <p class="sub-title line-clamp">Giá: {it.rentPrice}tr/ tháng</p>
+                          <div class="info">
+                            <p className="desc line-clamp">{it.description}</p>
+                          </div>
+                          <div className="action">
+                            <Link to="../detail" className='btn btn-seen'>Xem</Link>
+                          </div>
+                        </div>
                       </div>
                     )
                   })
                 }
               </div>
-              <div>
-                <label htmlFor="">Manager Name</label> {it.managerName}
-              </div>
-              <div>
-                <label htmlFor="">Manager Phone</label> {it.managerphone}
-              </div>
-              <div>
-                <label htmlFor="">Motor fee</label> {it.motofee}
-              </div>
-              <div>
-                <label htmlFor="">Name</label> {it.name}
-              </div>
-              <div>
-                <label htmlFor="">Rent Price</label> {it.rentPrice}
-              </div>
-              <div>
-                <label htmlFor="">Service Fee</label> {it.servicefee}
-              </div>
-              <div>
-                <label htmlFor="">Street</label> {it.street}
-              </div>
-              <div>
-                <label htmlFor="">Total Number Of Available Rooms</label> {it.totalNumberOfAvailableRooms}
-              </div>
-              <div>
-                <label htmlFor="">Type</label> {it.type}
-              </div>
-              <div>
-                <label htmlFor="">Ward</label> {it.ward}
-              </div>
-              <div>
-                <label htmlFor="">Water fee</label> {it.waterfee}
-              </div>
-              <div>
-                <label htmlFor="">Description</label> {it.description}
-              </div>
-              {localStorage.getItem("token") != null ? <button onClick={() => navigateToBuildingEditPage(it.id)}>Edit Building</button> : null}
-              {localStorage.getItem("token") != null ? <button onClick={() => deleteBuilding(it.id)}>Delete Building</button> : null}
-              <br></br>
-              <br></br>
-              <br></br>
             </div>
-          )
-        })
-      } */}
+          </div>
+        </div>
+      </div>
       <Footer />
     </div>
   )
