@@ -47,7 +47,6 @@ function BuildingCreatePage({ api }) {
     axios.post(api + "/building", building)
       .then(resp => {
         let buildingId = resp.data.id;
-        
         axios.post(api + "/image/upload-images-vids/" + buildingId, fd)
           .then(navigator("/building-search"))
           .catch(err => console.log(err))

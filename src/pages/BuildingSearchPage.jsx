@@ -48,8 +48,6 @@ function BuildingSearchPages() {
                       <option value="">Chọn loại</option>
                       <option value="Nguyên căn">Nguyên căn</option>
                       <option value="Phòng trọ">Phòng trọ</option>
-                      <option value="Kho">Kho</option>
-                      <option value="Đất">Đất</option>
                     </select>
                   </div>
 
@@ -113,11 +111,11 @@ function BuildingSearchPages() {
             </div>
           )}
 
-            <div className="featured">
+          <div className="featured">
               <div className="main-content">
                 <h2 className="title-featured">Danh sách sản phẩm</h2>
                 <div className="list">
-                  <div className="item">
+                  {/* <div className="item">
                     <a href="#">
                       <img src={featured1} alt="Nikko Apartments" class="thumb" />
                     </a>
@@ -135,159 +133,11 @@ function BuildingSearchPages() {
                         Xem</Link>
                       </div>
                     </div> 
-                  </div>
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
+                  </div> */}
 
                 </div>
               </div>
-        </div>
+          </div>
         </div>
       </div>
 
