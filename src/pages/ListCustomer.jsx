@@ -6,7 +6,11 @@ function ListCustomer() {
   return (
     <div>
       <Header/>
-      <h1>List Customer</h1>
+        <div className="list-customer">
+          <div className="main-content">
+            <h1>hello world</h1>
+          </div>
+        </div>
       <Footer/>
     </div>
   )
