@@ -51,7 +51,7 @@ function App() {
         <Route path = 'login' element = {<LoginPages/>}/>
         <Route path = 'warehouse' element = {<Warehouse/>}/>
         <Route path = 'land' element = {<Land/>}/>
-        <Route path = '/detail' element = {<BuildingDetail/>}/>
+        <Route path = '/detail' element = {<BuildingDetail api = {api}/>}/>
         <Route path = '/customer' element = {<ListCustomer/>}/>
       </Routes>
     </BrowserRouter>

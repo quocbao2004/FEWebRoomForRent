@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { useNavigate } from 'react-router-dom';
-import axios, { AxiosHeaders } from 'axios';
+import axios from 'axios';
 
 function BuildingCreatePage({ api }) {
 

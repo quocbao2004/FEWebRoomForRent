@@ -42,6 +42,15 @@ function BuildingSearchPage({ api }) {
       .catch(err => console.log(err))
   }
 
+  function navigateToBuildingDetailPage(id) {
+    var obj = {
+      state: {
+        id: id
+      }
+    }
+    navigate("/detail", { state: { id: id } });
+  }
+
   const districts = [
     "Quận 1", "Quận 3", "Quận 4", "Quận 5", "Quận 6", "Quận 7", "Quận 8",
     "Quận 10", "Quận 11", "Quận 12", "Quận Bình Thạnh", "Quận Tân Bình",
@@ -189,7 +198,7 @@ function BuildingSearchPage({ api }) {
                             <p className="desc line-clamp">{it.description}</p>
                           </div>
                           <div className="action">
-                            <Link to="../detail" className='btn btn-seen'>Xem</Link>
+                            <button onClick={() => navigateToBuildingDetailPage(it.id)} className='btn btn-seen'>Xem</button>
                           </div>
                         </div>
                       </div>

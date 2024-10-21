@@ -8,7 +8,7 @@ function BuildingEditPages({ api }) {
   
   const navigator = useNavigate();
   const location = useLocation();
-
+ 
   if(localStorage.getItem("token") == null) navigator("/");
 
   const [image, setImage] = useState(null);
