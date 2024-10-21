@@ -45,7 +45,7 @@ function BuildingCreatePage({ api }) {
     fd.append("files", building.images);
 
     axios.post(api + "/building", building)
-      .then(resp => {
+      .then(resp => { 
         let buildingId = resp.data.id;
         
         axios.post(api + "/image/upload-images-vids/" + buildingId, fd)
