@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BuildingSearchService, buildingSearchRequestHangleChange } from '../services/BuildingSearchService';
 import '../assets/css/buildingSearch.css'
-import { Link } from 'react-router-dom';
 
 function BuildingSearchPage({ api }) {
   const [showFilters, setShowFilters] = useState(false); // state để hiển thị hoặc ẩn các trường lọc
@@ -43,11 +42,6 @@ function BuildingSearchPage({ api }) {
   }
 
   function navigateToBuildingDetailPage(id) {
-    var obj = {
-      state: {
-        id: id
-      }
-    }
     navigate("/detail", { state: { id: id } });
   }
 
@@ -60,7 +54,7 @@ function BuildingSearchPage({ api }) {
   ];
 
   useEffect(() => {
-    axios.get(api + "/building")
+    axios.get(api + "/building?type=PHONG_TRO,NGUYEN_CAN")
       .then(res => {
         setRecords(res.data);
       })
@@ -155,7 +149,7 @@ function BuildingSearchPage({ api }) {
                   </div>
                 </div>
                 <div className="action">
-                  <button href="#!" className="btn submit-btn" onClick={() => BuildingSearchService(api, setRecords)}>Tìm kiếm</button>
+                  <button href="#!" className="btn submit-btn" onClick={() => BuildingSearchService(api, setRecords, "PHONG_TRO, NGUYEN_CAN")}>Tìm kiếm</button>
                 </div>
               </div>
 

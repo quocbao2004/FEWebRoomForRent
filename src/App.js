@@ -49,8 +49,8 @@ function App() {
         <Route path = 'home' element = {<HomePage/>}/>
         <Route path = 'sercurity-policy' element = {<SecurityPolicy/>}/>
         <Route path = 'login' element = {<LoginPages/>}/>
-        <Route path = 'warehouse' element = {<Warehouse/>}/>
-        <Route path = 'land' element = {<Land/>}/>
+        <Route path = 'warehouse' element = {<Warehouse api = { api }/>}/>
+        <Route path = 'land' element = {<Land api = {api}/>}/>
         <Route path = '/detail' element = {<BuildingDetail api = {api}/>}/>
         <Route path = '/customer' element = {<ListCustomer/>}/>
       </Routes>

@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-export function BuildingSearchService( api, setRecords ) {
+export function BuildingSearchService( api, setRecords, type ) {
     const params = new URLSearchParams();
     params.append("id", buildingSearchRequest.id);
     params.append("name", buildingSearchRequest.name);
     params.append("ward", buildingSearchRequest.ward);
-    params.append("type", buildingSearchRequest.type);
+    buildingSearchRequest.type != "" ? params.append("type", buildingSearchRequest.type) : params.append("type", type);
     params.append("district", buildingSearchRequest.district);
     params.append("street", buildingSearchRequest.street);
     params.append("rentPriceFrom", buildingSearchRequest.rentPriceFrom);
