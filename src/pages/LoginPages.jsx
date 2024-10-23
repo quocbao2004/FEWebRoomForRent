@@ -1,5 +1,7 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import '../assets/css/loginPages.css';
+import logo from '../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png'
 
 function LoginPages({ api }) {
     const naviagte = useNavigate();
@@ -11,20 +13,20 @@ function LoginPages({ api }) {
 
     function loginBtnHandler(e) {
         e.preventDefault();
-        
+
         const userLogin = {
             phone: userData.phone,
             password: userData.password
         };
-    
+
         axios.post(api + "/users/login", userLogin)
             .then(function (resp) {
                 localStorage.setItem("token", resp.data);
                 naviagte('/building-search');
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
-            }) 
+            })
     }
 
     function handleChange(e) {
@@ -32,13 +34,47 @@ function LoginPages({ api }) {
     }
 
     return (
-        <form action="">
-            <label htmlFor="phone">Phone number</label>
-            <input type="text" name="phone" id="phone" onChange={handleChange}/>
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="password" onChange={handleChange}/>
-            <button onClick={loginBtnHandler}>Login</button>
-        </form>        
+        // <form action="">
+        //     <label htmlFor="phone">Phone number</label>
+        //     <input type="text" name="phone" id="phone" onChange={handleChange}/>
+        //     <label htmlFor="password">Password</label>
+        //     <input type="password" name="password" id="password" onChange={handleChange}/>
+        //     <button onClick={loginBtnHandler}>Login</button>
+        // </form>  
+        <>
+            <div className="login">
+                <div className="body">
+                    <div className="back">
+                        <Link to="../home">
+                            <img src ={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
+                        </Link>
+
+                        <Link to="../home" className="backToHome">
+                            Trang chủ
+                        </Link>
+                    </div>
+                    <div class="wrapper">
+                        <form action="">
+                            <h1>Login</h1>
+                            <div class="input-box">
+                                <input type="text" placeholder="Username" required onChange={handleChange}/>
+                                <i class='bx bxs-user'></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="password" placeholder="Password" required onChange={handleChange}/>
+                                <i class='bx bxs-lock-alt' ></i>
+                            </div>
+                            <div class="remember-forgot">
+                                <label><input type="checkbox" />Remember Me</label>
+                                <a href="#">Forgot Password</a>
+                            </div>
+                            <button type="submit" class="btn" onClick={loginBtnHandler}>Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {/* <Footer /> */}
+        </>
     )
 }
 
