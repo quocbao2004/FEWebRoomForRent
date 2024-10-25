@@ -1,0 +1,8 @@
+.post-room input[type="text"] {height: 50px;width: calc(100% - 20px);padding: 5px;box-sizing: border-box;border: 1px solid #ccc;border-radius: 4px;font-size: 1.6rem;}
+.post-room select {height: 50px;width: 200px;padding: 2px;box-sizing: border-box;border: 1px solid #ccc;border-radius: 4px;font-size: 1.6rem;}.post-room .strong {color:red;}
+.post-room .title {border-top-left-radius: 12px;border-top-right-radius: 12px;background-color: #ddd;margin-top: 0;padding: 15px 0 15px 10px;}
+.post-room .body .info {margin-left: 10px;margin-bottom: 20px;border: 1px solid rgba(0, 0, 0, 0.5);box-shadow: -62px 4px 68px -10px rgba(0,0,0,0.3);border-radius: 12px;font-size: 1.6rem;}
+.post-room .row,.post-room .item {margin-top: 20px;}.post-room label {margin: 0 0 10px 0;display: block;}.post-room .row {margin-left: 10px;margin-right: 50px;}
+.metvuong {display: flex;width: 50px;height: 50px;background-color: #ddd;border: 1px solid ;align-items: center;justify-content: center;border-top-right-radius: 8px;
+border-bottom-right-radius: 8px;margin-left: -2px;}.post-room .action {margin-bottom: 20px;margin-left: 20px;}.post-room .item:last-child {margin-bottom: 20px;}.post-room #floorArea {width: 200px;border-top-right-radius: 0;border-bottom-right-radius: 0;
+}.post-room #desc {width: 100%;height: 100px;padding: 10px;box-sizing: border-box;border: 1px solid #ccc;border-radius: 4px;resize: vertical;}.post-room #totalNumberOfAvailableRooms {width: 200px;}

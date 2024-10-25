@@ -1,0 +1,8 @@
+.admin .body-admin {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.admin .item {
+  display: inline-block;
+}

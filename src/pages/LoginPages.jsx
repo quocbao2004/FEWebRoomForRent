@@ -1,125 +1,94 @@
-import React from 'react';
-import { useState } from 'react';
-import LoginService from '../services/LoginService';
-import axios from 'axios';
-// import BuildingSearchService from '../services/BuildingSearchService'
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";  // Import useState
+import '../assets/css/loginPages.css';
+import logo from '../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png';
 
 function LoginPages({ api }) {
-    
+    const navigate = useNavigate();
+
+    // Sử dụng useState để quản lý trạng thái
     const [userData, setUserData] = useState({
         phone: "",
         password: ""
     });
+    const [errorMessage, setErrorMessage] = useState(""); // Thêm trạng thái lỗi
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setUserData({ ...userData, [e.target.name]: value });
-    }
-    let [buildings, setBuildings] = useState("");
-    function BuildingSearchService(api) {
-        axios.get(api + "/building")
-            .then(function(res) {  
-                return (
-                    setBuildings(res.data.map((it, idx) => {
-                        return (
-                            <div key={it.id}>
-                                <div>
-                                    <label htmlFor="">Car fee</label>
-                                    <div>{it.carfee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Deposit</label>
-                                    <div>{it.deposit}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">District</label>
-                                    <div>{it.district}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Electricity Fee</label>
-                                    <div>{it.electricityfee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Floor Area</label>
-                                    <div>{it.floorArea}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Images</label>
-                                    <div>
-                                        {it.images.map((image, idx) => {
-                                            <div index = {image.id}>{image}</div>
-                                        })}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Manager Name</label>
-                                    <div>{it.managerName}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Manager Phone</label>
-                                    <div>{it.managerphone}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Motor fee</label>
-                                    <div>{it.motofee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Name</label>
-                                    <div>{it.name}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Rent Price</label>
-                                    <div>{it.rentPrice}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Service Fee</label>
-                                    <div>{it.servicefee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Street</label>
-                                    <div>{it.street}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Total Number Of Available Rooms</label>
-                                    <div>{it.totalNumberOfAvailableRooms}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Type</label>
-                                    <div>{it.type}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Ward</label>
-                                    <div>{it.ward}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Water fee</label>
-                                    <div>{it.waterfee}</div>
-                                </div>
-                                <div>
-                                    <label htmlFor="">Description</label>
-                                    <div>{it.description}</div>
-                                </div>
-                            </div>
-                        )
-                    }))
-                )
+    function loginBtnHandler(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+        const userLogin = {
+            phone: userData.phone,
+            password: userData.password
+        };
+
+        // Gửi yêu cầu đăng nhập
+        axios.post(api + "/users/login", userLogin)
+            .then(function (resp) {
+                localStorage.setItem("token", resp.data);
+                navigate('/home'); // Dẫn tới trang home
             })
-            .catch(function(err) {console.log(err);})
+            .catch(function (err) {
+                console.log(err);
+                setErrorMessage("Đăng nhập không thành công. Vui lòng kiểm tra lại số điện thoại và mật khẩu."); // Hiển thị thông báo lỗi
+            });
     }
-    BuildingSearchService(api);
+
+    function handleChange(e) {
+        setUserData({ ...userData, [e.target.name]: e.target.value }); // Cập nhật trạng thái đúng cách
+    }
 
     return (
         <>
-            <form action="">
-                <label htmlFor="phone">Phone number</label>
-                <input type="text" name="phone" id="phone" onChange={handleChange}/>
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" id="password" onChange={handleChange}/>
-                <button onClick={e => LoginService(e, userData, api)}>Login</button>
-            </form>
-            { buildings }
+            <div className="login">
+                <div className="body">
+                    <div className="back">
+                        <Link to="../home">
+                            <img src={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
+                        </Link>
+                        <Link to="../home" className="backToHome">
+                            Trang chủ
+                        </Link>
+                    </div>
+                    <div className="wrapper">
+                        {/* Đã thêm onSubmit cho form */}
+                        <form onSubmit={loginBtnHandler}>
+                            <h1>Login</h1>
+                            {/* Nhớ gắn tên trường cho phù hợp với dữ liệu */}
+                            <div className="input-box">
+                                <input
+                                    type="text"
+                                    name="phone" // Gắn tên trường đúng
+                                    placeholder="Phone number" // Thay đổi thành 'Phone number'
+                                    required
+                                    onChange={handleChange}
+                                />
+                                <i className='bx bxs-user'></i>
+                            </div>
+                            <div className="input-box">
+                                <input
+                                    type="password"
+                                    name="password" // Gắn tên trường đúng
+                                    placeholder="Password"
+                                    required
+                                    onChange={handleChange}
+                                />
+                                <i className='bx bxs-lock-alt'></i>
+                            </div>
+                            <div className="remember-forgot">
+                                <label><input type="checkbox" />Remember Me</label>
+                                <a href="#">Forgot Password</a>
+                            </div>
+                            <button type="submit" className="btn">Login</button>
+                        </form>
+                        {/* Hiển thị thông báo lỗi nếu có */}
+                        {errorMessage && <p className="error">{errorMessage}</p>}
+                    </div>
+                </div>
+            </div>
+            {/* <Footer /> */}
         </>
-    )
+    );
 }
 
 export default LoginPages;

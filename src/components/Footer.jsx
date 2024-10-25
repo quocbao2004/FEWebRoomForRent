@@ -1,77 +1,93 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import '../assets/css/footer.css'
+import cash from '../assets/img/index-img/pay/payment-removebg-preview.png';
+import momo from '../assets/img/index-img/pay/momo_icon_square_pinkbg.svg';
+import ShopeePay from '../assets/img/index-img/pay/Logo-ShopeePay-V.webp';
+import Bank from '../assets/img/index-img/pay/icons8-bank-48.png';
+import ZaloPay from '../assets/img/index-img/pay/Logo FA-14.png';
 
 function Footer() {
-  return (
-    // <div class="h"></div>
-    <footer class="footer">
-        <div class="main-content">
-            <div class="body">
-                <div class="row">
-                    <div class="title">
-                        <h2>NHATROGIARESAIGON.COM.VN</h2>
-                    </div>
-                    <div class="footer-item">
-                        <div class="icon">
-                            <i class="fa-solid fa-location-dot"></i>
+    return (
+        <footer class="footer">
+            <div class="main-content">
+                <div class="body">
+                    <div class="column">
+                        <div class="title">
+                            <h2>NHATROGIARESAIGON</h2>
                         </div>
-                        <p class="info">32. Đường E, Phường 7, Quận 8, Thành phố Hồ Chí Minh</p>
-                    </div>
-    
-                    <div class="footer-item">
-                        <div class="icon">
-                            <i class="fa-solid fa-phone"></i>
+                        <div class="footer-item">
+                            <div class="icon">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <p class="info">106 Đường số 4, Phường 7, Quận 8, TP.HCM</p>
                         </div>
-                        <p class="info">0865.479.500</p>
-                    </div>
-    
-                    <div class="footer-item">
-                        <div class="icon">
-                            <i class="fa-solid fa-envelope"></i>
+
+                        <div class="footer-item">
+                            <div class="icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <a href="https://zalo.me/0909437393" target="_blank" className="info">0909.437.393</a>
                         </div>
-                        <p class="info">daoquocbao2k04@gmail.com</p>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="title">
-                        <h2>VỀ CHÚNG TÔI</h2>
-                    </div>
-                    <div class="footer-item">
-                        <a href="#" class="info">Giới thiệu</a>
-                    </div>
-
-                    <div class="footer-item">
-                        <a href="#" class="info">Chính sách bảo mật</a>
+                        <div class="footer-item">
+                            <div class="icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <a href="mailto:nguyenminhchung437393@gmail.com" target="_blank" className="info">
+                                nguyenminhchung437393@gmail.com
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="footer-item">
-                        <a href="#" class="info">Liên hệ</a>
-                    </div>
-                </div>
+                    <div class="column">
+                        <div class="title">
+                            <h2>VỀ CHÚNG TÔI</h2>
+                        </div>
+                        <div class="footer-item">
+                            <Link to="../home#introduction" className="item">Giới thiệu</Link>
+                        </div>
 
-                <div class="row">
-                    <div class="title">
-                        <h2>THÔNG TIN</h2>
+                        <div class="footer-item">
+                            <Link to="../sercurity-policy" className="item">Chính sách bảo mật</Link>
+
+                        </div>
+
+                        <div class="footer-item">
+                            {/* <a href="#contact" class="info">Liên hệ</a> */}
+                            <Link to="../home#contact" className="item">Liên hệ</Link>
+                        </div>
                     </div>
 
-                    <div class="footer-item">
-                        <a href="#" class="info">Bảng giá dịch vụ</a>
+                    <div class="column">
+                        <div class="title">
+                            <h2>THÔNG TIN</h2>
+                        </div>
+
+                        <div class="footer-item">
+                            <a href="#" class="info">Bảng giá dịch vụ</a>
+                        </div>
+
+                        <div class="footer-item">
+                            <a href="#" class="info">Tin tức</a>
+                        </div>
                     </div>
 
-                    <div class="footer-item">
-                        <a href="#" class="info">Tin tức</a>
+                    <div class="column">
+                        <div class="title">
+                            <h2>PHƯƠNG THỨC THANH TOÁN</h2>
+                        </div>
+                        <div class="footer-item">
+                            <img src={cash} alt="" className="img-pay" title="tiền mặt" />
+                            <img src={momo} alt="" className="img-pay" title="Momo Pay" />
+                            <img src={ShopeePay} alt="" className="img-pay" title="Shopee Pay" />
+                            <img src={Bank} alt="" className="img-pay" title="Bank" />
+                            <img src={ZaloPay} alt="" className="img-pay" title="Zalo Pay" />
+                        </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="title">
-                        <h2>PHƯƠNG THỨC THANH TOÁN</h2>
-                    </div>
-                    <img src="./assets/img/index-img/phuong-thuc-thanh-toan-final.png" alt=""  class="payment"/>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
     )
 }
 
