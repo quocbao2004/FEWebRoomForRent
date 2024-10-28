@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import '../assets/css/buildingDetail.css'
+import React, { useEffect, useState } from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import "../assets/css/buildingDetail.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { useLocation } from 'react-router-dom'
-import axios from 'axios'
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 // test img
-import featured1 from '../assets/img/home-img/featured.avif';
+import featured1 from "../assets/img/home-img/featured.avif";
 
 function BuildingDetail({ api }) {
-
   const location = useLocation();
   const id = location.state.id;
 
@@ -35,16 +34,17 @@ function BuildingDetail({ api }) {
     deposit: "",
     totalNumberOfAvailableRooms: null,
     description: "",
-    images: null
+    images: null,
   });
 
   useEffect(() => {
-    axios.get(api + "/building?id=" + id)
-      .then(resp => {
-        setBuilding(resp.data[0])
+    axios
+      .get(api + "/building?id=" + id)
+      .then((resp) => {
+        setBuilding(resp.data[0]);
       })
-      .catch(err => console.log(err))
-  }, [])
+      .catch((err) => console.log(err));
+  }, []);
 
   var settings = {
     dots: true,
@@ -52,7 +52,7 @@ function BuildingDetail({ api }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true
+    autoplay: true,
   };
 
   return (
@@ -64,35 +64,50 @@ function BuildingDetail({ api }) {
             <div className="slide">
               {/* <img src={featured1} alt="" className="slide-content" /> */}
               <Slider {...settings}>
-                {
-                  building.images ? building.images.map((image, idx) => {
-                    console.log(building.images.length);
-                    
-                    let lastIdxOfDot = image.lastIndexOf(".");
-                    let fileType = image.substring(lastIdxOfDot);
-                    return (
-                      <div key={idx}>
-                        {
-                          fileType.localeCompare(".mp4") == 0 ?
-                            <video className="slide-content" width="750" height="500" controls key={idx}>
-                              <source src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} type="video/mp4" />
-                            </video> :
-                            <img className="slide-content" src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} key={idx} />
-                        }
-                      </div>
-                    )
-                  })
-                    : null
-                }
+                {building.images
+                  ? building.images.map((image, idx) => {
+                      console.log(building.images.length);
+
+                      let lastIdxOfDot = image.lastIndexOf(".");
+                      let fileType = image.substring(lastIdxOfDot);
+                      return (
+                        <div key={idx}>
+                          {fileType.localeCompare(".mp4") == 0 ? (
+                            <video
+                              className="slide-content"
+                              width="750"
+                              height="500"
+                              controls
+                              key={idx}
+                            >
+                              <source
+                                src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
+                                type="video/mp4"
+                              />
+                            </video>
+                          ) : (
+                            <img
+                              className="slide-content"
+                              src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
+                              key={idx}
+                            />
+                          )}
+                        </div>
+                      );
+                    })
+                  : null}
               </Slider>
             </div>
 
             <div className="detail-content">
               <div className="-detail-common">
                 <h2 className="detail-title">Thông tin bất động sản</h2>
-                <h3 className='name'>{building.name}</h3>
+                <h3 className="name">{building.name}</h3>
                 <p className="title">Địa chỉ: </p>
-                <p className="address">{building.street}, phường {building.ward}, quận {building.district}</p>
+                <p className="address">
+                  {building.street}, phường {building.ward}, quận{" "}
+                  {building.district}
+                </p>
               </div>
               <div className="characteristic">
                 <h3 className="title-block">Giá</h3>
@@ -135,7 +150,9 @@ function BuildingDetail({ api }) {
                   </div>
                   <div className="item">
                     <p className="title">Số phòng trống</p>
-                    <p className="desc">{building.totalNumberOfAvailableRooms}</p>
+                    <p className="desc">
+                      {building.totalNumberOfAvailableRooms}
+                    </p>
                   </div>
 
                   <div className="item">
@@ -152,7 +169,7 @@ function BuildingDetail({ api }) {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
 export default BuildingDetail;

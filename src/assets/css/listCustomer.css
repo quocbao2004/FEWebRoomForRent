@@ -1,0 +1,14 @@
+.list-customer {
+  min-height: 60vh;
+}
+
+.list-customer .body {
+  box-shadow: -7px 0px 29px -9px rgba(0, 0, 0, 0.2);
+  margin: 100px 0;
+  padding: 30px;
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc khi bảng quá dài */
+  overflow-x: auto;
+}
+.list-customer .body h1 {
+  flex-wrap: nowrap;
+}

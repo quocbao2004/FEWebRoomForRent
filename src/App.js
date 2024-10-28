@@ -12,7 +12,8 @@ import BuildingDetail from "./pages/BuildingDetail.jsx";
 import ListCustomer from "./pages/ListCustomer.jsx";
 import BuildingCreatePage from "./pages/BuildingCreatePage.jsx";
 import Admin from "./pages/Admin.jsx";
-
+import EditProfile from "./pages/EditProfile.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
 const api = "http://localhost:8080/api";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<HomePage api={api} />} />
-        <Route path="building-edit" element={<BuildingEditPages />} />
+        <Route path="building-edit/:id" element={<BuildingEditPages />} />
         <Route
           path="building-search"
           element={<BuildingSearchPage api={api} />}
@@ -37,6 +38,8 @@ function App() {
           element={<BuildingCreatePage api={api} />}
         />
         <Route path="/admin" element={<Admin />} />
+        <Route path="edit-profile" element={<EditProfile api={api} />} />
+        <Route path="change-password" element={<ChangePassword api={api} />} />
       </Routes>
     </BrowserRouter>
   );
