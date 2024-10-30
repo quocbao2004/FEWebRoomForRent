@@ -36,25 +36,30 @@ import Warehouse from './pages/Warehouse.jsx';
 import Land from './pages/Land.jsx';
 import BuildingDetail from './pages/BuildingDetail.jsx';
 import ListCustomer from './pages/ListCustomer.jsx';
+import Admin from './pages/Admin.jsx';
+import { useRef } from 'react';
 
 const api = "http://localhost:8080/api";
 
 function App() {
+  const useRefAPI = useRef();
+  useRefAPI.current = api;
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route index element = {<LoginPages api = { api }/>}/> */}
-        <Route index element = {<LoginPages api = {api}/>}/>        
+        <Route index element = {<LoginPages useRefAPI = {useRefAPI}/>}/>        
         <Route path='building-edit' element={<BuildingEditPages />} />
-        <Route path='building-search' element={<BuildingSearchPage api={api} />} />
-        <Route path='home' element={<HomePage />} />
+        <Route path='building-search' element={<BuildingSearchPage useRefAPI = {useRefAPI}/>} />
+        <Route path='home' element={<HomePage useRefAPI = {useRefAPI}/>} />
         <Route path='sercurity-policy' element={<SecurityPolicy />} />
-        <Route path='login' element={<LoginPages />} />
+        <Route path='login' element={<LoginPages useRefAPI = {useRefAPI}/>} />
         <Route path='warehouse' element={<Warehouse api={api} />} />
         <Route path='land' element={<Land api={api} />} />
         <Route path='/detail' element={<BuildingDetail api={api} />} />
         <Route path='/customer' element={<ListCustomer />} />
         <Route path='/building-create' element={<BuildingCreatePage api={api} />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import homeBackground from '../assets/img/home-img/homeslide.webp'
@@ -9,30 +9,61 @@ import Why from '../assets/img/index-img/DALL·E 2024-10-20 18.09.12 - A modern 
 import Service from '../assets/img/index-img/service.webp';
 // Import image for test
 import featured1 from '../assets/img/home-img/featured.avif';
+import axios from "axios";
 
-function HomePage() {
- 
+function HomePage({ useRefAPI }) {
 
+  const [records, setRecords] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const scrollToElement = (id) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     };
 
     if (location.hash === "#contact") {
-        scrollToElement("contact");
+      scrollToElement("contact");
     } else if (location.hash === "#introduction") {
-        scrollToElement("introduction");
+      scrollToElement("introduction");
     }
-}, [location]);
+  }, [location]);
+
+  useEffect(() => {
+    axios.get(useRefAPI.current + "/building?type=")
+      .then(res => {
+        setRecords(res.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  function navigateToBuildingDetailPage(id) {
+    navigate("/detail", { state: { id: id } });
+  }
+
+  let customerData = {
+    fullName: "",
+    phone: "",
+    demand: "",
+    id: null
+  }
+
+  function createCustomerHandler(e) {
+    customerData = {...customerData, [e.target.name]: e.target.value}
+  }
+
+  function createCustomer() {
+    axios.post(useRefAPI.current + "/customer/add-customer", customerData)
+      .then(alert("Gửi thông tin thành công!!"))
+      .catch(alert("Gửi thông tin thất bại. Vui lòng thử lại sau"))
+  }
 
   return (
     <>
-      <Header />
+      <Header useRefAPI={useRefAPI} />
       <div className="home">
         {/* Slider */}
         <div className="slider">
@@ -43,10 +74,10 @@ function HomePage() {
             <p className="desc overlay-text">Chào mừng bạn đến với website cho thuê trọ Sài Gòn giá rẻ! </p>
             <br />
             <p className="desc overlay-text">Tại đây,
-            bạn sẽ tìm thấy nhiều lựa chọn phòng trọ phù hợp với nhu cầu của mình. Chúc bạn có trải nghiệm tuyệt vời!</p>
+              bạn sẽ tìm thấy nhiều lựa chọn phòng trọ phù hợp với nhu cầu của mình. Chúc bạn có trải nghiệm tuyệt vời!</p>
           </div>
         </div>
-        
+
         {/* Intro */}
         <div id="introduction">
           <div className="main-content">
@@ -57,7 +88,7 @@ function HomePage() {
                 </div>
 
                 <div className="row-why">
-                <h2 className="title">Tại sao nên chọn chúng tôi ?</h2>
+                  <h2 className="title">Tại sao nên chọn chúng tôi ?</h2>
                   <ul className="menu">
 
                     <li className="item">
@@ -105,7 +136,7 @@ function HomePage() {
 
               <div className="row">
                 <div className="row-why">
-                <h2 className="title">Chúng tôi cung cấp các dịch vụ gì?</h2>
+                  <h2 className="title">Chúng tôi cung cấp các dịch vụ gì?</h2>
                   <ul className="menu">
                     <li className="item">
                       <div className="tick">
@@ -155,124 +186,110 @@ function HomePage() {
 
         {/* Featured Model */}
         <div className="featured">
-              <div className="main-content">
-                <h2 className="title-featured">Phòng nổi bật</h2>
-                <div className="list">
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
+          <div className="main-content">
+            <h2 className="title-featured">Phòng nổi bật</h2>
+            <div className="list">
+              {
+                records.map(function (it, idx) {
+                  if (idx > 2) return;
+                  return (
+                    <div key={idx} className="item">
+                      <a href="#">
+                        {
+                          it.images.map((image, idx) => {
+                            if (idx > 0) return;
+                            let lastIdxOfDot = it.images[0].lastIndexOf(".");
+                            let s = image.substring(lastIdxOfDot);
+                            return (
+                              <div key={idx}>
+                                {
+                                  s.localeCompare(".mp4") == 0 ?
+                                    <video class="thumb" width="750" height="500" controls key={idx}>
+                                      <source src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} type="video/mp4" />
+                                    </video> :
+                                    <img class="thumb" src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`} key={idx} />
+                                }
+                              </div>
+                            )
+                          })
+                        }
+                      </a>
+                      <div class="body">
+                        <h3 class="title line-clamp">
+                          <a href="#" class="line-clamp">{it.name}</a>
+                        </h3>
+                        <p class="sub-title line-clamp">Giá: {it.rentPrice}tr/ tháng</p>
+                        <div class="info">
+                          <p className="desc line-clamp">{it.description}</p>
+                        </div>
+                        <div className="action">
+                          <button onClick={() => navigateToBuildingDetailPage(it.id)} className='btn btn-seen'>Xem</button>
+                        </div>
                       </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div className="item">
-                    <a href="#">
-                      <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp"><a href="#" class="line-clamp">Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime laboriosam iste natus necessitatibus earum! Nobis odit consequatur enim est. Impedit.  </a></h3>
-                      <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                      <div class="info">
-                        <p className="desc line-clamp">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla fugiat nesciunt, saepe laudantium iste impedit quos voluptates quisquam suscipit! Quia explicabo iusto modi cumque incidunt facilis ex possimus officia delectus!
-                        </p>
-                      </div>
-
-                      <div className="action">
-                        <a href="#" className="btn btn-seen">Xem</a>
-                      </div>
-                    </div> 
-                  </div>
-                </div>
-              </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
         </div>
 
         {/* Contact */}
         <div id="contact">
-              <div className="main-content">
-                <div className="body">
-                <h2 className="contact-title">Liên hệ</h2>
-                  <div className="contact-content">
-                    <h3>Bạn cần hỗ trợ ?</h3>
-                    <p className="desc">
-                      Chúng tôi rất hân hạnh được hỗ trợ bạn, hãy để lại thông tin liên lạc cho chúng tôi nhé, 
-                      yêu cầu của bạn sẽ được xử lý và phản hồi sớm nhất
-                    </p>
-                
-                    </div>
-                    <div className="submit-info">
-                      <div className="row">
-                        <div className="item">
-                          <label htmlFor="customerName">Họ và tên &nbsp;<strong className="strong">*</strong> </label>
-                          <input type="text" name="customerName" id="customerName" />
-                        </div>
+          <div className="main-content">
+            <div className="body">
+              <h2 className="contact-title">Liên hệ</h2>
+              <div className="contact-content">
+                <h3>Bạn cần hỗ trợ ?</h3>
+                <p className="desc">
+                  Chúng tôi rất hân hạnh được hỗ trợ bạn, hãy để lại thông tin liên lạc cho chúng tôi nhé,
+                  yêu cầu của bạn sẽ được xử lý và phản hồi sớm nhất
+                </p>
 
-                        <div className="item">
-                          <label htmlFor="customerPhone">Số điện thoại &nbsp;<strong className="strong">*</strong> </label>
-                          <input type="text" name="customerPhone" id="customerPhone" />
-                        </div>
-                      </div>
+              </div>
+              <div className="submit-info">
+                <div className="row">
+                  <div className="item">
+                    <label htmlFor="customerName">Họ và tên &nbsp;<strong className="strong">*</strong> </label>
+                    <input type="text" name="fullName" id="customerName" onChange={createCustomerHandler}/>
+                  </div>
 
-                      <div className="item">
-                        <label htmlFor="customerDesc">Mô tả chi tiết</label>
-                        <textarea name="customerDesc" id="customerDesc" col='5' row='5'></textarea>
-                      </div>
+                  <div className="item">
+                    <label htmlFor="customerPhone">Số điện thoại &nbsp;<strong className="strong">*</strong> </label>
+                    <input type="text" name="phone" id="customerPhone" onChange={createCustomerHandler}/>
+                  </div>
+                </div>
 
-                      <div className="action">
-                        <div className="btn btn-submit">
-                          Gửi
-                        </div>
-                      </div>
+                <div className="item">
+                  <label htmlFor="customerDesc">Mô tả chi tiết</label>
+                  <textarea name="demand" onChange={createCustomerHandler} id="customerDesc" col='5' row='5'></textarea>
+                </div>
 
-                        <div className="contact-manager">
-                          <p className="desc">Hoặc liên hệ qua</p>
-                          <div className="list-icon">
-                            <a href="https://www.facebook.com/profile.php?id=100004721740519" target="_blank" className='font-icon'>
-                              <i class="fa-brands fa-facebook"></i>
-                            </a>
-                            <a href="https://zalo.me/0909437393" target="_blank" >
-                              <img src={Zalo} alt="" className="img-zalo" />
-                            </a>
-                            <a href="https://www.youtube.com/@nguyenkhang0111" target="_blank" className='font-icon'>
-                              <i class="fa-brands fa-youtube"></i>
-                            </a>
-                        </div>
-                      </div>
-                    </div>
+                <div className="action">
+                  <button onClick={createCustomer} className="btn btn-submit">
+                    Gửi
+                  </button>
+                </div>
+
+                <div className="contact-manager">
+                  <p className="desc">Hoặc liên hệ qua</p>
+                  <div className="list-icon">
+                    <a href="https://www.facebook.com/profile.php?id=100004721740519" target="_blank" className='font-icon'>
+                      <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="https://zalo.me/0909437393" target="_blank" >
+                      <img src={Zalo} alt="" className="img-zalo" />
+                    </a>
+                    <a href="https://www.youtube.com/@nguyenkhang0111" target="_blank" className='font-icon'>
+                      <i class="fa-brands fa-youtube"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
         </div>
-      </div>  
+      </div>
       <Footer />
     </>
   );

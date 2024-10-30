@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Footer from '../components/Footer' 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BuildingSearchService, buildingSearchRequestHangleChange } from '../services/BuildingSearchService';
 import '../assets/css/buildingSearch.css'
 
-function BuildingSearchPage({ api }) {
+function BuildingSearchPage({ useRefAPI }) {
   const [showFilters, setShowFilters] = useState(false); // state để hiển thị hoặc ẩn các trường lọc
 
   const [records, setRecords] = useState([]);
@@ -32,9 +32,9 @@ function BuildingSearchPage({ api }) {
         return Promise.reject(error);
       }
     )
-    axios.delete(api + "/building/" + id)
+    axios.delete(useRefAPI.current + "/building/" + id)
       .then(function findAll() {
-        axios.get(api + "/building")
+        axios.get(useRefAPI.current + "/building")
           .then(res => setRecords(res.data))
           .catch(err => console.log(err))
       })
@@ -54,7 +54,7 @@ function BuildingSearchPage({ api }) {
   ];
 
   useEffect(() => {
-    axios.get(api + "/building?type=PHONG_TRO,NGUYEN_CAN")
+    axios.get(useRefAPI.current + "/building?type=PHONG_TRO,NGUYEN_CAN")
       .then(res => {
         setRecords(res.data);
       })
@@ -149,7 +149,7 @@ function BuildingSearchPage({ api }) {
                   </div>
                 </div>
                 <div className="action">
-                  <button href="#!" className="btn submit-btn" onClick={() => BuildingSearchService(api, setRecords, "PHONG_TRO, NGUYEN_CAN")}>Tìm kiếm</button>
+                  <button href="#!" className="btn submit-btn" onClick={() => BuildingSearchService(useRefAPI.current, setRecords, "PHONG_TRO, NGUYEN_CAN")}>Tìm kiếm</button>
                 </div>
               </div>
 

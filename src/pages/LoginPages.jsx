@@ -3,8 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import '../assets/css/loginPages.css';
 import logo from '../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png'
 
-function LoginPages({ api }) {
+function LoginPages({ useRefAPI }) {
     const naviagte = useNavigate();
+    let apiRef = useRefAPI.current;
 
     let userData = {
         phone: "",
@@ -19,10 +20,10 @@ function LoginPages({ api }) {
             password: userData.password
         };
 
-        axios.post(api + "/users/login", userLogin)
+        axios.post(apiRef + "/users/login", userLogin)
             .then(function (resp) {
                 localStorage.setItem("token", resp.data);
-                naviagte('/building-search');
+                naviagte('/home');
             })
             .catch(function (err) {
                 console.log(err);
@@ -57,11 +58,11 @@ function LoginPages({ api }) {
                         <form action="">
                             <h1>Login</h1>
                             <div class="input-box">
-                                <input type="text" placeholder="Username" required onChange={handleChange}/>
+                                <input type="text" name="phone" placeholder="Username" required onChange={handleChange}/>
                                 <i class='bx bxs-user'></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="Password" required onChange={handleChange}/>
+                                <input type="password" name="password" placeholder="Password" required onChange={handleChange}/>
                                 <i class='bx bxs-lock-alt' ></i>
                             </div>
                             <div class="remember-forgot">

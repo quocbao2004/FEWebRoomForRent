@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function BuildingSearchService( api, setRecords, type ) {
+export function BuildingSearchService( useRefAPI, setRecords, type ) {
     const params = new URLSearchParams();
     params.append("id", buildingSearchRequest.id);
     params.append("name", buildingSearchRequest.name);
@@ -13,7 +13,7 @@ export function BuildingSearchService( api, setRecords, type ) {
     params.append("floorAreaFrom", buildingSearchRequest.floorAreaFrom);
     params.append("floorAreaTo", buildingSearchRequest.floorAreaTo);
 
-    axios.get(api + "/building?" + params) 
+    axios.get(useRefAPI.current + "/building?" + params) 
         .then(res => setRecords(res.data))
         .catch(err => console.log(err))
 }
