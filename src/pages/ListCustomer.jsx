@@ -13,7 +13,7 @@ function ListCustomer({ api }) {
       phone: "0123456789",
       email: "a@example.com",
       description: "Thuê trọ",
-      status: "Chưa xử lý",
+      // status: "Chưa xử lý",
     },
     {
       id: 2,
@@ -21,6 +21,7 @@ function ListCustomer({ api }) {
       phone: "0987654321",
       email: "b@example.com",
       description: "Đối tác mới",
+      // status: "Đã xử lý",
     },
     {
       id: 3,
@@ -28,6 +29,7 @@ function ListCustomer({ api }) {
       phone: "0123987456",
       email: "c@example.com",
       description: "Hợp tác",
+      // status: "Chưa xử lý",
     },
     {
       id: 4,
@@ -35,13 +37,9 @@ function ListCustomer({ api }) {
       phone: "0865479500",
       email: "c@example.com",
       description: "Thuê nhà",
+      // status: "Đã xử lý",
     },
   ]);
-
-  // Hàm xử lý khi xóa tất cả
-  const handleDeleteAll = () => {
-    setCustomerData([]); // Xóa toàn bộ dữ liệu từ state
-  };
 
   return (
     <div>
@@ -50,7 +48,7 @@ function ListCustomer({ api }) {
         <div className="main-content">
           <div className="body">
             <h1>Danh sách khách hàng đã gửi thông tin</h1>
-            <DataTable data={customerData} onDeleteAll={handleDeleteAll} />
+            <DataTable data={customerData} />
           </div>
         </div>
       </div>

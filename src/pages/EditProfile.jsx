@@ -68,11 +68,11 @@ function EditProfile({ api }) {
               </label>
 
               <div className="action">
-                <button type="submit" className="btn">
+                <button type="submit" className="btn-grad">
                   Lưu thay đổi
                 </button>
 
-                <button className="btn">
+                <button className="btn-grad">
                   <Link className="cancel" to="../change-password">
                     Đổi mật khẩu
                   </Link>

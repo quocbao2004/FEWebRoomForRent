@@ -8,10 +8,7 @@ import Slider from "react-slick";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-// test img
-import featured1 from "../assets/img/home-img/featured.avif";
-
-function BuildingDetail({ api }) {
+function BuildingDetail({ useRefAPI }) {
   const location = useLocation();
   const id = location.state.id;
 
@@ -39,7 +36,7 @@ function BuildingDetail({ api }) {
 
   useEffect(() => {
     axios
-      .get(api + "/building?id=" + id)
+      .get(useRefAPI.current + "/building?id=" + id)
       .then((resp) => {
         setBuilding(resp.data[0]);
       })
@@ -105,8 +102,7 @@ function BuildingDetail({ api }) {
                 <h3 className="name">{building.name}</h3>
                 <p className="title">Địa chỉ: </p>
                 <p className="address">
-                  {building.street}, phường {building.ward}, quận{" "}
-                  {building.district}
+                  {building.street}, {building.ward}, {building.district}
                 </p>
               </div>
               <div className="characteristic">

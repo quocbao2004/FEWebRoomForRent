@@ -135,6 +135,27 @@ function BuildingEditPages({ api }) {
                     <option value="Phòng trọ">Đất</option>
                   </select>
                 </div>
+
+                <div className="item">
+                  <label htmlFor="floorArea">
+                    Diện tích&nbsp;<strong className="strong">*</strong>{" "}
+                  </label>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input type="number" name="floorArea" id="floorArea" />
+                    <span className="metvuong">m²</span>
+                  </div>
+                </div>
+
+                <div className="item">
+                  <label htmlFor="totalNumberOfAvailableRooms">
+                    Số phòng trống
+                  </label>
+                  <input
+                    type="number"
+                    name="totalNumberOfAvailableRooms"
+                    id="totalNumberOfAvailableRooms"
+                  />
+                </div>
               </div>
 
               <div className="row">
@@ -171,31 +192,7 @@ function BuildingEditPages({ api }) {
 
               <div className="row">
                 <div className="item">
-                  <label htmlFor="floorArea">
-                    Diện tích&nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input type="text" name="floorArea" id="floorArea" />
-                    <span className="metvuong">m²</span>
-                  </div>
-                </div>
-
-                <div className="item">
-                  <label htmlFor="totalNumberOfAvailableRooms">
-                    Số phòng trống
-                  </label>
-                  <input
-                    type="text"
-                    name="totalNumberOfAvailableRooms"
-                    id="totalNumberOfAvailableRooms"
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="item">
                   <label htmlFor="desc">Mô tả chi tiết</label>
-                  {/* <input type="text" name="desc" id="desc" rows="500" cols="50"/> */}
                   <textarea
                     name="desc"
                     id="desc"
@@ -232,28 +229,26 @@ function BuildingEditPages({ api }) {
                   <label htmlFor="rentPrice">
                     Giá thuê &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
-                  <input type="text" name="rentPrice" id="rentPrice" />
+                  <input type="number" name="rentPrice" id="rentPrice" />
                 </div>
                 <div className="item">
                   <label htmlFor="servicefee">
                     Phí dịch vụ &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
-                  <input type="text" name="servicefee" id="servicefee" />
+                  <input type="number" name="servicefee" id="servicefee" />
                 </div>
-              </div>
 
-              <div className="row">
                 <div className="item">
                   <label htmlFor="carfee">
                     Phí ô tô &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
-                  <input type="text" name="carfee" id="carfee" />
+                  <input type="number" name="carfee" id="carfee" />
                 </div>
                 <div className="item">
                   <label htmlFor="motofee">
                     Phí xe máy &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
-                  <input type="text" name="motofee" id="motofee" />
+                  <input type="number" name="motofee" id="motofee" />
                 </div>
               </div>
 
@@ -262,14 +257,14 @@ function BuildingEditPages({ api }) {
                   <label htmlFor="waterfee">
                     Nước &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
-                  <input type="text" name="waterfee" id="waterfee" />
+                  <input type="number" name="waterfee" id="waterfee" />
                 </div>
                 <div className="item">
                   <label htmlFor="electricityfee">
                     Điện &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     name="electricityfee"
                     id="electricityfee"
                   />
@@ -278,7 +273,7 @@ function BuildingEditPages({ api }) {
                   <label htmlFor="deposit">
                     Tiền cọc &nbsp;<strong className="strong">*</strong>{" "}
                   </label>
-                  <input type="text" name="deposit" id="deposit" />
+                  <input type="number" name="deposit" id="deposit" />
                 </div>
               </div>
             </div>
@@ -294,7 +289,7 @@ function BuildingEditPages({ api }) {
             </div>
 
             <div class="action">
-              <a href="#!" class="btn submit-btn">
+              <a href="#!" className="btn-grad">
                 Đăng bài
               </a>
             </div>

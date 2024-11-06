@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../assets/css/header.css";
 import logo from "../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png";
+import axios from "axios";
 
-function Header() {
+function Header({ useRefAPI }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userRef = useRef(null);
+  const navigator = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -27,6 +29,62 @@ function Header() {
     setIsLoggedIn(!!token);
   }, []);
 
+  // function Logout() {
+  //   if (!localStorage.getItem("token")) return;
+
+  //   let Token = localStorage.getItem("token");
+  //   axios.interceptors.request.use(
+  //     (config) => {
+  //       const token = localStorage.getItem("token");
+  //       if (token) {
+  //         config.headers["Authorization"] = `Bearer ${token}`;
+  //         console.log("Authorization header:", config.headers["Authorization"]);
+  //       }
+  //       return config;
+  //     },
+  //     (error) => Promise.reject(error)
+  //   );
+  //   let tokenRequest = {
+  //     token: Token,
+  //   };
+
+  //   axios
+  //     .post(useRefAPI.current + "/users/logout", tokenRequest)
+  //     .then((resp) => {
+  //       localStorage.removeItem("token");
+  //       // window.location.reload();
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
+
+  // Di chuyển interceptor ra ngoài để áp dụng cho tất cả các yêu cầu axios
+  axios.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  function Logout() {
+    if (!localStorage.getItem("token")) return;
+    const Token = localStorage.getItem("token");
+
+    const tokenRequest = { token: Token };
+    axios
+      .post(useRefAPI.current + "/users/logout", tokenRequest, {
+        headers: { Authorization: `Bearer ${Token}` },
+      })
+      .then((resp) => {
+        localStorage.removeItem("token");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  }
+
   const toggleHamburger = () => {
     setIsActive(!isActive);
   };
@@ -34,6 +92,10 @@ function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Chuyển đổi giữa hiển thị và ẩn menu
   };
+
+  function navigateToLoginPage() {
+    navigator("/login", useRefAPI);
+  }
 
   return (
     <header className="header fixed">
@@ -43,10 +105,10 @@ function Header() {
           <Link
             to="../home"
             onClick={() => {
-              window.scrollTo(0, 0);
+              window.scrollTo(0, 0); // Kéo lên đầu trang
               setTimeout(() => {
-                window.location.reload();
-              }, 0);
+                window.location.reload(); // Reload trang
+              }, 0); // Reload sau khi kéo lên đầu trang
             }}
           >
             <img src={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
@@ -86,8 +148,10 @@ function Header() {
           {/* Login */}
           <div className="action">
             {!isLoggedIn && (
-              <div className="btn sign-up-btn">
-                <Link to="../login">Đăng nhập</Link>
+              <div className="btn">
+                <button className="sign-up-btn" onClick={navigateToLoginPage}>
+                  Đăng nhập
+                </button>
               </div>
             )}
           </div>
@@ -99,22 +163,22 @@ function Header() {
                 {isMenuOpen && (
                   <ul className="user_list">
                     <li className="item">
-                      <Link to="../admin" className="user-link">
+                      <Link to="../home" className="user-link">
                         <i class="fa-solid fa-user"></i>
                         Trang quản trị
                       </Link>
                     </li>
                     <li className="item">
-                      <Link to="../edit-profile" className="user-link">
+                      <Link to="../home" className="user-link">
                         <i className="fa-solid fa-user-pen"></i>
                         Chỉnh sửa thông tin cá nhân
                       </Link>
                     </li>
                     <li className="item">
-                      <Link to="../home" className="user-link">
+                      <button onClick={Logout} className="user-link">
                         <i className="fa-solid fa-right-from-bracket"></i>
                         Đăng xuất
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 )}

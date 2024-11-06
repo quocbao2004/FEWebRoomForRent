@@ -1,8 +1,45 @@
-.admin .body-admin {
+.body-admin {
+  min-height: 90vh;
   display: flex;
-  flex-wrap: wrap;
 }
 
-.admin .item {
-  display: inline-block;
+.dashboard {
+  padding-right: 20px;
+  background-color: #539ed7;
+}
+
+.dashboard .fa-solid {
+  margin: 10px;
+}
+
+.dashboard .title {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+.body-admin .item {
+  display: flex;
+  min-height: 50px;
+  font-size: 2rem;
+  align-items: center;
+  margin: 20px 0;
+  /* border-bottom: 1px solid #ddd; */
+  transition: all 0.5s ease-in-out;
+}
+
+.body-admin-item {
+  color: white;
+}
+
+.body-admin-item:hover {
+  color: var(--primary-color);
+  cursor: pointer;
+  transform: scale(0.9);
+}
+
+@media (max-width: 500px) {
+  .dashboard {
+    width: 100%;
+  }
 }

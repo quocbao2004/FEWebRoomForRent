@@ -14,9 +14,12 @@ import BuildingCreatePage from "./pages/BuildingCreatePage.jsx";
 import Admin from "./pages/Admin.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
-const api = "http://localhost:8080/api";
+import { useRef } from "react";
 
 function App() {
+  const api = "http://localhost:8080/api";
+  const useRefAPI = useRef();
+  useRefAPI.current = api;
   return (
     <BrowserRouter>
       <Routes>
@@ -26,12 +29,19 @@ function App() {
           path="building-search"
           element={<BuildingSearchPage api={api} />}
         />
-        <Route path="home" element={<HomePage />} />
+        <Route path="home" element={<HomePage useRefAPI={useRefAPI} />} />
         <Route path="sercurity-policy" element={<SecurityPolicy />} />
-        <Route path="login" element={<LoginPages api={api} />} />
+        <Route
+          path="/login"
+          index
+          element={<LoginPages useRefAPI={useRefAPI} />}
+        />
         <Route path="warehouse" element={<Warehouse api={api} />} />
         <Route path="land" element={<Land api={api} />} />
-        <Route path="/detail" element={<BuildingDetail api={api} />} />
+        <Route
+          path="/detail"
+          element={<BuildingDetail useRefAPI={useRefAPI} />}
+        />
         <Route path="/customer" element={<ListCustomer />} />
         <Route
           path="/create-building"

@@ -11,19 +11,14 @@ const DataTable = ({ data, onDeleteSelected }) => {
     setTableData(data);
   }, [data]);
 
+  const statusOptions = ["Đang xử lý", "Hoàn thành", "Hủy bỏ"];
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+
   const columns = React.useMemo(
     () => [
-      {
-        Header: "Chọn",
-        accessor: "select",
-        Cell: ({ row }) => (
-          <input
-            type="checkbox"
-            checked={selectedRows[row.original.id] || false}
-            onChange={() => handleSelectRow(row.original.id)}
-          />
-        ),
-      },
       {
         Header: "ID",
         accessor: "id",
@@ -47,6 +42,21 @@ const DataTable = ({ data, onDeleteSelected }) => {
       {
         Header: "Tình trạng",
         accessor: "status",
+        Cell: ({ row }) => (
+          <select
+            style={{ height: "40px", fontSize: "1.5rem" }}
+            value={row.original.status}
+            // onChange={(e) =>
+            //   handleStatusChange(row.original.id, e.target.value)
+            // }
+          >
+            {statusOptions.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+        ),
       },
       {
         Header: "Thao tác",
@@ -89,13 +99,6 @@ const DataTable = ({ data, onDeleteSelected }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data: tableData });
 
-  const handleSelectRow = (id) => {
-    setSelectedRows((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
   const handleDelete = (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xoá?")) {
       const newData = tableData.filter((item) => item.id !== id);
@@ -125,9 +128,6 @@ const DataTable = ({ data, onDeleteSelected }) => {
 
   return (
     <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-      <button className="delete-all-btn" onClick={handleDeleteSelected}>
-        <FaTrash color="red" size={16} /> Xóa các mục đã chọn
-      </button>
       <table
         {...getTableProps()}
         style={{ border: "solid 1px black", width: "100%", marginTop: "10px" }}

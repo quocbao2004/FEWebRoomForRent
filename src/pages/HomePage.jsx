@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import homeBackground from "../assets/img/home-img/homeslide.webp";
@@ -7,11 +7,13 @@ import "../assets/css/home.css";
 import Zalo from "../assets/img/index-img/zalo_icon.png";
 import Why from "../assets/img/index-img/service1f.webp";
 import Service from "../assets/img/index-img/service.webp";
-// Import image for test
-import featured1 from "../assets/img/home-img/featured.avif";
 
-function HomePage() {
+import axios from "axios";
+
+function HomePage({ useRefAPI }) {
+  const [records, setRecords] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const itemsRef = useRef([]);
 
@@ -20,15 +22,14 @@ function HomePage() {
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("show"); // Thêm class show khi item vào viewport
-            observer.unobserve(entry.target); // Ngừng quan sát sau khi đã thêm class
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 } // 10% của item vào viewport thì kích hoạt hiệu ứng
+      { threshold: 0.1 }
     );
 
-    // Gán observer vào từng item
     itemsRef.current.forEach((item) => {
       if (item) observer.observe(item);
     });
@@ -55,10 +56,53 @@ function HomePage() {
     }
   }, [location]);
 
+  useEffect(() => {
+    axios
+      .get(useRefAPI.current + "/building?type=")
+      .then((res) => {
+        setRecords(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  function navigateToBuildingDetailPage(id) {
+    navigate("/detail", { state: { id: id } });
+  }
+
+  let customerData = {
+    fullName: "",
+    phone: "",
+    demand: "",
+    id: null,
+  };
+
+  function createCustomerHandler(e) {
+    customerData = { ...customerData, [e.target.name]: e.target.value };
+  }
+
+  function createCustomer() {
+    console.log(customerData);
+    axios
+      .post(useRefAPI.current + "/customer/add-customer", customerData)
+      .then(alert("Gửi thông tin thành công!!"))
+      .catch(alert("Gửi thông tin thất bại. Vui lòng thử lại sau"));
+  }
+
   return (
     <>
-      <Header />
+      <Header useRefAPI={useRefAPI} />
+      <div class="preloader"></div>
+
       <div className="home">
+        <div className="contact-fixed">
+          <a
+            href="https://zalo.me/0909437393"
+            target="_blank"
+            className="message"
+          >
+            <i class="fa-regular fa-message message"></i>Liên hệ
+          </a>
+        </div>
         {/* Slider */}
         <div className="slider">
           <img src={homeBackground} alt="" className="home-img" />
@@ -210,97 +254,65 @@ function HomePage() {
           <div className="main-content">
             <h2 className="title-featured">Phòng nổi bật</h2>
             <div className="list">
-              <div className="item">
-                <a href="#">
-                  <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                </a>
-                <div class="body">
-                  <h3 class="title line-clamp">
-                    <a href="#" class="line-clamp">
-                      Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit
-                      amet consectetur adipisicing elit. Maxime laboriosam iste
-                      natus necessitatibus earum! Nobis odit consequatur enim
-                      est. Impedit.{" "}
+              {records.map(function (it, idx) {
+                if (idx > 2) return;
+                return (
+                  <div key={idx} className="item">
+                    <a href="#">
+                      {it.images.map((image, idx) => {
+                        if (idx > 0) return;
+                        let lastIdxOfDot = it.images[0].lastIndexOf(".");
+                        let s = image.substring(lastIdxOfDot);
+                        return (
+                          <div key={idx}>
+                            {s.localeCompare(".mp4") == 0 ? (
+                              <video
+                                class="thumb"
+                                width="750"
+                                height="500"
+                                controls
+                                key={idx}
+                              >
+                                <source
+                                  src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
+                                  type="video/mp4"
+                                />
+                              </video>
+                            ) : (
+                              <img
+                                class="thumb"
+                                src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
+                                key={idx}
+                              />
+                            )}
+                          </div>
+                        );
+                      })}
                     </a>
-                  </h3>
-                  <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                  <div class="info">
-                    <p className="desc line-clamp">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Nulla fugiat nesciunt, saepe laudantium iste impedit quos
-                      voluptates quisquam suscipit! Quia explicabo iusto modi
-                      cumque incidunt facilis ex possimus officia delectus!
-                    </p>
+                    <div class="body">
+                      <h3 class="title line-clamp">
+                        <a href="#" class="line-clamp">
+                          {it.name}
+                        </a>
+                      </h3>
+                      <p class="sub-title line-clamp">
+                        Giá: {it.rentPrice}tr/ tháng
+                      </p>
+                      <div class="info">
+                        <p className="desc line-clamp">{it.description}</p>
+                      </div>
+                      <div className="action">
+                        <button
+                          onClick={() => navigateToBuildingDetailPage(it.id)}
+                          className="btn btn-seen"
+                        >
+                          Xem
+                        </button>
+                      </div>
+                    </div>
                   </div>
-
-                  <div className="action">
-                    <a href="#" className="btn btn-seen">
-                      Xem
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <a href="#">
-                  <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                </a>
-                <div class="body">
-                  <h3 class="title line-clamp">
-                    <a href="#" class="line-clamp">
-                      Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit
-                      amet consectetur adipisicing elit. Maxime laboriosam iste
-                      natus necessitatibus earum! Nobis odit consequatur enim
-                      est. Impedit.{" "}
-                    </a>
-                  </h3>
-                  <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                  <div class="info">
-                    <p className="desc line-clamp">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Nulla fugiat nesciunt, saepe laudantium iste impedit quos
-                      voluptates quisquam suscipit! Quia explicabo iusto modi
-                      cumque incidunt facilis ex possimus officia delectus!
-                    </p>
-                  </div>
-
-                  <div className="action">
-                    <a href="#" className="btn btn-seen">
-                      Xem
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="item">
-                <a href="#">
-                  <img src={featured1} alt="Nikko Apartments" class="thumb" />
-                </a>
-                <div class="body">
-                  <h3 class="title line-clamp">
-                    <a href="#" class="line-clamp">
-                      Nhà cho thuê hẻm 20 đường Cao Lỗ Lorem ipsum dolor, sit
-                      amet consectetur adipisicing elit. Maxime laboriosam iste
-                      natus necessitatibus earum! Nobis odit consequatur enim
-                      est. Impedit.{" "}
-                    </a>
-                  </h3>
-                  <p class="sub-title line-clamp">Giá: 20tr/ tháng</p>
-                  <div class="info">
-                    <p className="desc line-clamp">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Nulla fugiat nesciunt, saepe laudantium iste impedit quos
-                      voluptates quisquam suscipit! Quia explicabo iusto modi
-                      cumque incidunt facilis ex possimus officia delectus!
-                    </p>
-                  </div>
-
-                  <div className="action">
-                    <a href="#" className="btn btn-seen">
-                      Xem
-                    </a>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -324,7 +336,12 @@ function HomePage() {
                     <label htmlFor="customerName">
                       Họ và tên &nbsp;<strong className="strong">*</strong>{" "}
                     </label>
-                    <input type="text" name="customerName" id="customerName" />
+                    <input
+                      type="text"
+                      name="fullName"
+                      id="customerName"
+                      onChange={createCustomerHandler}
+                    />
                   </div>
 
                   <div className="item">
@@ -333,24 +350,40 @@ function HomePage() {
                     </label>
                     <input
                       type="text"
-                      name="customerPhone"
+                      name="phone"
                       id="customerPhone"
+                      onChange={createCustomerHandler}
                     />
                   </div>
                 </div>
-
-                <div className="item">
-                  <label htmlFor="customerDesc">Mô tả chi tiết</label>
-                  <textarea
-                    name="customerDesc"
-                    id="customerDesc"
-                    col="5"
-                    row="5"
-                  ></textarea>
+                <div className="row">
+                  <div className="item">
+                    <label htmlFor="customerEmail">
+                      email &nbsp;<strong className="strong">*</strong>{" "}
+                    </label>
+                    <input
+                      type="text"
+                      name="email"
+                      id="email"
+                      onChange={createCustomerHandler}
+                    />
+                  </div>
+                  <div className="item">
+                    <label htmlFor="desc">Mô tả chi tiết</label>
+                    <textarea
+                      name="demand"
+                      id="customerDesc"
+                      col="5"
+                      row="5"
+                      onChange={createCustomerHandler}
+                    ></textarea>
+                  </div>
                 </div>
 
                 <div className="action">
-                  <div className="btn btn-submit">Gửi</div>
+                  <button onClick={createCustomer} className="btn-grad">
+                    Gửi
+                  </button>
                 </div>
 
                 <div className="contact-manager">
