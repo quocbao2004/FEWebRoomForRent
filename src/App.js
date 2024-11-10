@@ -38,6 +38,8 @@ import BuildingDetail from './pages/BuildingDetail.jsx';
 import ListCustomer from './pages/ListCustomer.jsx';
 import Admin from './pages/Admin.jsx';
 import { useRef } from 'react';
+import EditProfile from './pages/EditProfile.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
 
 const api = "http://localhost:8080/api";
 
@@ -48,18 +50,20 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element = {<LoginPages useRefAPI = {useRefAPI}/>}/>        
-        <Route path='building-edit' element={<BuildingEditPages />} />
-        <Route path='building-search' element={<BuildingSearchPage useRefAPI = {useRefAPI}/>} />
-        <Route path='home' element={<HomePage useRefAPI = {useRefAPI}/>} />
+        <Route index element={<LoginPages useRefAPI={useRefAPI} />} />
+        <Route path='building-edit' element={<BuildingEditPages useRefAPI={useRefAPI}/>} />
+        <Route path='building-search' element={<BuildingSearchPage useRefAPI={useRefAPI} />} />
+        <Route path='home' element={<HomePage useRefAPI={useRefAPI} />} />
         <Route path='sercurity-policy' element={<SecurityPolicy />} />
-        <Route path='login' element={<LoginPages useRefAPI = {useRefAPI}/>} />
+        <Route path='login' element={<LoginPages useRefAPI={useRefAPI} />} />
         <Route path='warehouse' element={<Warehouse api={api} />} />
         <Route path='land' element={<Land api={api} />} />
         <Route path='/detail' element={<BuildingDetail api={api} />} />
         <Route path='/customer' element={<ListCustomer />} />
         <Route path='/building-create' element={<BuildingCreatePage api={api} />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/edit-profile" element={<EditProfile useRefAPI={useRefAPI} />} />
+        <Route path="/forgot-password" element={<ForgotPassword useRefAPI={useRefAPI} />} />
       </Routes>
     </BrowserRouter>
   );

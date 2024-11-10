@@ -47,13 +47,15 @@ function BuildingDetail({ api }) {
   }, [])
 
   var settings = {
-    dots: true,
+    dots: true, 
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true
   };
+
+  
 
   return (
     <div>

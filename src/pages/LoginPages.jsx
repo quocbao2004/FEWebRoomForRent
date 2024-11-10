@@ -60,7 +60,7 @@ function LoginPages({ useRefAPI }) {
                             </div>
                             <div class="remember-forgot">
                                 <label><input type="checkbox" />Remember Me</label>
-                                <a href="#">Forgot Password</a>
+                                <button href="#">Forgot Password</button>
                             </div>
                             <button type="submit" class="btn" onClick={loginBtnHandler}>Login</button>
                         </form>

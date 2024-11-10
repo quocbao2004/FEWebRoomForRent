@@ -5,9 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function BuildingCreatePage({ api }) {
-
-  const chunkSize = 1048576 * 5;// 5MB
-
   const building = {
     id: null,
     name: "",
@@ -31,16 +28,6 @@ function BuildingCreatePage({ api }) {
   };
   const navigator = useNavigate();
 
-  const path = {
-    // set chunk size for enable the chunk upload
-    chunkSize: 102400,
-    // set time delay for automatic retry when chunk upload failed
-    retryAfterDelay: 3000,
-    // set count for automatic retry when chunk upload failed
-    retryCount: 5,
-    saveUrl: 'https://services.syncfusion.com/react/production/api/FileUploader/Save'
-  };
-
   function createBuildingBtnHandler(api, building) {
 
     let token = localStorage.getItem("token");
@@ -53,12 +40,8 @@ function BuildingCreatePage({ api }) {
         return Promise.reject(error);
       }
     )
-    const fd = new FormData();
-    let img_arr = [];
-    img_arr.push(building.images)
-    fd.append("files", building.images);
+    
     console.log(building.images);
-    console.log(img_arr);
 
     axios.post(api + "/building", building)
       .then(resp => {
@@ -72,9 +55,13 @@ function BuildingCreatePage({ api }) {
             return Promise.reject(error);
           }
         )
-        axios.post(api + "/image/upload-images-vids/" + buildingId, fd)
+        for(let it of building.images) {
+          const fd = new FormData();
+          fd.append("files", it);
+          axios.post(api + "/image/upload-images-vids/" + buildingId, fd)
           .then(navigator("/building-search"))
           .catch(err => console.log(err))
+        }
       })
       .catch(err => console.log(err))
   }
@@ -156,7 +143,7 @@ function BuildingCreatePage({ api }) {
       </li>
       <li>
         <label htmlFor="images">images</label>
-        <input type="file" name="images" id="images" onChange={(e) => building.images = e.target.files[0]} />
+        <input multiple="multiple" type="file" name="images" id="images" onChange={(e) => building.images = e.target.files}/>
       </li>
       <div>
         <button onClick={() => createBuildingBtnHandler(api, building)}>Confirm</button>

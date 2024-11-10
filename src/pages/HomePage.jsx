@@ -3,13 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import homeBackground from '../assets/img/home-img/homeslide.webp'
+import homeBackground2 from '../assets/img/home-img/homeslide-2.webp'
 import '../assets/css/home.css'
 import Zalo from '../assets/img/index-img/zalo_icon.png';
 import Why from '../assets/img/index-img/DALL·E 2024-10-20 18.09.12 - A modern 3D style illustration for a room rental website in Saigon. The image features a thoughtful character, representing a customer searching f.webp';
 import Service from '../assets/img/index-img/service.webp';
 // Import image for test
-import featured1 from '../assets/img/home-img/featured.avif';
-import axios from "axios";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick"; import axios from "axios";
 
 function HomePage({ useRefAPI }) {
 
@@ -51,8 +53,17 @@ function HomePage({ useRefAPI }) {
     id: null
   }
 
+  var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true
+  };
+
   function createCustomerHandler(e) {
-    customerData = {...customerData, [e.target.name]: e.target.value}
+    customerData = { ...customerData, [e.target.name]: e.target.value }
   }
 
   function createCustomer() {
@@ -61,13 +72,22 @@ function HomePage({ useRefAPI }) {
       .catch(alert("Gửi thông tin thất bại. Vui lòng thử lại sau"))
   }
 
+  var homePageImgArr = [
+    homeBackground,
+    homeBackground2
+  ]
+
   return (
     <>
       <Header useRefAPI={useRefAPI} />
       <div className="home">
         {/* Slider */}
         <div className="slider">
-          <img src={homeBackground} alt="" className="home-img" />
+          <Slider {...settings}>
+            {homePageImgArr.map((curr, idx) => {
+              return <img key = {idx} src={curr} alt="" className="home-img" />
+            })}
+          </Slider>
           <div className="slider-content">
             <h1 className="title overlay-text">Website cho thuê trọ sài gòn giá rẻ</h1>
             <br />
@@ -251,12 +271,12 @@ function HomePage({ useRefAPI }) {
                 <div className="row">
                   <div className="item">
                     <label htmlFor="customerName">Họ và tên &nbsp;<strong className="strong">*</strong> </label>
-                    <input type="text" name="fullName" id="customerName" onChange={createCustomerHandler}/>
+                    <input type="text" name="fullName" id="customerName" onChange={createCustomerHandler} />
                   </div>
 
                   <div className="item">
                     <label htmlFor="customerPhone">Số điện thoại &nbsp;<strong className="strong">*</strong> </label>
-                    <input type="text" name="phone" id="customerPhone" onChange={createCustomerHandler}/>
+                    <input type="text" name="phone" id="customerPhone" onChange={createCustomerHandler} />
                   </div>
                 </div>
 
