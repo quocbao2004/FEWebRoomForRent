@@ -307,7 +307,7 @@ function BuildingSearchPage({ api }) {
                         <div className="action">
                           <button
                             onClick={() => navigateToBuildingDetailPage(it.id)}
-                            className="btn-grad"
+                            className="btn-grad btn-seen"
                           >
                             Xem
                           </button>

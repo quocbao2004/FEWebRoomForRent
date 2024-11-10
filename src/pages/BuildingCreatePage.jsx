@@ -71,7 +71,7 @@ function BuildingCreatePage({ api }) {
       .post(api + "/building", building)
       .then((resp) => {
         let buildingId = resp.data.id;
-
+        console.log(building.images);
         axios
           .post(api + "/image/upload-images-vids/" + buildingId, fd)
           .then(() => navigator("/building-search"))
@@ -335,7 +335,8 @@ function BuildingCreatePage({ api }) {
                     type="file"
                     name="images"
                     id="images"
-                    onChange={(e) => (building.images = e.target.files[0])}
+                    multiple="multiple"
+                    onChange={(e) => (building.images = e.target.files)}
                   />
                 </div>
               </div>

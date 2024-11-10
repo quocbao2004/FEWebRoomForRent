@@ -304,7 +304,7 @@ function HomePage({ useRefAPI }) {
                       <div className="action">
                         <button
                           onClick={() => navigateToBuildingDetailPage(it.id)}
-                          className="btn btn-seen"
+                          className="btn-grad"
                         >
                           Xem
                         </button>

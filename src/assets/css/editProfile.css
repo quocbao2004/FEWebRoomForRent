@@ -37,3 +37,19 @@
 .edit-profile .btn {
   margin: 20px 20px 0px 0;
 }
+
+.edit-profile .action {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -15px;
+}
+
+.edit-profile .Ma {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.edit-profile .oclock {
+  font-size: 1.6rem;
+  margin-top: 20px;
+}

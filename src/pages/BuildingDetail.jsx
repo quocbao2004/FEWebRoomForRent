@@ -5,7 +5,7 @@ import "../assets/css/buildingDetail.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function BuildingDetail({ useRefAPI }) {
@@ -98,7 +98,12 @@ function BuildingDetail({ useRefAPI }) {
 
             <div className="detail-content">
               <div className="-detail-common">
-                <h2 className="detail-title">Thông tin bất động sản</h2>
+                <h2 className="detail-title">
+                  Thông tin bất động sản
+                  <i class="fa-solid fa-pen-to-square edit-building">
+                    <Link to="../building-edit/"></Link>
+                  </i>
+                </h2>
                 <h3 className="name">{building.name}</h3>
                 <p className="title">Địa chỉ: </p>
                 <p className="address">
