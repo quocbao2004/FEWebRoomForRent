@@ -35,19 +35,12 @@ function LoginPages({ useRefAPI }) {
     }
 
     return (
-        // <form action="">
-        //     <label htmlFor="phone">Phone number</label>
-        //     <input type="text" name="phone" id="phone" onChange={handleChange}/>
-        //     <label htmlFor="password">Password</label>
-        //     <input type="password" name="password" id="password" onChange={handleChange}/>
-        //     <button onClick={loginBtnHandler}>Login</button>
-        // </form>  
         <>
             <div className="login">
                 <div className="body">
                     <div className="back">
                         <Link to="../home">
-                            <img src ={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
+                            <img src={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
                         </Link>
 
                         <Link to="../home" className="backToHome">
@@ -58,11 +51,11 @@ function LoginPages({ useRefAPI }) {
                         <form action="">
                             <h1>Login</h1>
                             <div class="input-box">
-                                <input type="text" name="phone" placeholder="Username" required onChange={handleChange}/>
+                                <input type="text" name="phone" placeholder="Username" required onChange={handleChange} />
                                 <i class='bx bxs-user'></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" name="password" placeholder="Password" required onChange={handleChange}/>
+                                <input type="password" name="password" placeholder="Password" required onChange={handleChange} />
                                 <i class='bx bxs-lock-alt' ></i>
                             </div>
                             <div class="remember-forgot">

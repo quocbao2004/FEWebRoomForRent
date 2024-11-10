@@ -6,21 +6,23 @@ import axios from 'axios';
 
 function BuildingCreatePage({ api }) {
 
+  const chunkSize = 1048576 * 5;// 5MB
+
   const building = {
     id: null,
     name: "",
     ward: "",
-    type: "",
+    type: "PHONG_TRO",
     district: "",
     street: "",
     floorArea: null,
     managerName: "",
     managerphone: "",
-    rentPrice: null, 
+    rentPrice: null,
     servicefee: null,
     carfee: null,
     motofee: null,
-    waterfee: null, 
+    waterfee: null,
     electricityfee: null,
     deposit: "",
     totalNumberOfAvailableRooms: null,
@@ -29,7 +31,17 @@ function BuildingCreatePage({ api }) {
   };
   const navigator = useNavigate();
 
-  function createBuildingBtnHandler(api, building) {  
+  const path = {
+    // set chunk size for enable the chunk upload
+    chunkSize: 102400,
+    // set time delay for automatic retry when chunk upload failed
+    retryAfterDelay: 3000,
+    // set count for automatic retry when chunk upload failed
+    retryCount: 5,
+    saveUrl: 'https://services.syncfusion.com/react/production/api/FileUploader/Save'
+  };
+
+  function createBuildingBtnHandler(api, building) {
 
     let token = localStorage.getItem("token");
     axios.interceptors.request.use(
@@ -42,12 +54,24 @@ function BuildingCreatePage({ api }) {
       }
     )
     const fd = new FormData();
+    let img_arr = [];
+    img_arr.push(building.images)
     fd.append("files", building.images);
+    console.log(building.images);
+    console.log(img_arr);
 
     axios.post(api + "/building", building)
-      .then(resp => { 
+      .then(resp => {
         let buildingId = resp.data.id;
-        
+        axios.interceptors.request.use(
+          config => {
+            config.headers.Authorization = "Bearer " + token;
+            return config;
+          },
+          error => {
+            return Promise.reject(error);
+          }
+        )
         axios.post(api + "/image/upload-images-vids/" + buildingId, fd)
           .then(navigator("/building-search"))
           .catch(err => console.log(err))
@@ -57,87 +81,87 @@ function BuildingCreatePage({ api }) {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <h1>Building create page</h1>
       <li>
         <label htmlFor="name">Name</label>
-        <input type="text" name="name" id="name" onChange={(e) => building.name = e.target.value}/>
+        <input type="text" name="name" id="name" onChange={(e) => building.name = e.target.value} />
       </li>
       <li>
         <label htmlFor="ward">ward</label>
-        <input type="text" name="ward" id="ward" onChange={(e) => building.ward = e.target.value}/>
+        <input type="text" name="ward" id="ward" onChange={(e) => building.ward = e.target.value} />
       </li>
       <li>
         <label htmlFor="type">type</label>
         <select name="type" id="type" onChange={(e) => building.type = e.target.value}>
-          <option value="PHONG_TRO">Phòng Trọ</option>
+          <option selected value="PHONG_TRO">Phòng Trọ</option>
           <option value="NGUYEN_CAN">Nguyên Căn</option>
         </select>
       </li>
       <li>
         <label htmlFor="district">district</label>
-        <input type="text" name="district" id="district" onChange={(e) => building.district = e.target.value}/>
+        <input type="text" name="district" id="district" onChange={(e) => building.district = e.target.value} />
       </li>
       <li>
         <label htmlFor="street">street</label>
-        <input type="text" name="street" id="street" onChange={(e) => building.street = e.target.value}/>
+        <input type="text" name="street" id="street" onChange={(e) => building.street = e.target.value} />
       </li>
       <li>
         <label htmlFor="floorArea">floorArea</label>
-        <input type="text" name="floorArea" id="floorArea" onChange={(e) => building.floorArea = parseInt(e.target.value)}/>
+        <input type="text" name="floorArea" id="floorArea" onChange={(e) => building.floorArea = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="managerName">managerName</label>
-        <input type="text" name="managerName" id="managerName" onChange={(e) => building.managerName = e.target.value}/>
+        <input type="text" name="managerName" id="managerName" onChange={(e) => building.managerName = e.target.value} />
       </li>
       <li>
         <label htmlFor="managerphone">managerphone</label>
-        <input type="text" name="managerphone" id="managerphone" onChange={(e) => building.managerphone = e.target.value}/>
+        <input type="text" name="managerphone" id="managerphone" onChange={(e) => building.managerphone = e.target.value} />
       </li>
       <li>
         <label htmlFor="rentPrice">rentPrice</label>
-        <input type="text" name="rentPrice" id="rentPrice" onChange={(e) => building.rentPrice = parseInt(e.target.value)}/>
+        <input type="text" name="rentPrice" id="rentPrice" onChange={(e) => building.rentPrice = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="servicefee">servicefee</label>
-        <input type="text" name="servicefee" id="servicefee" onChange={(e) => building.servicefee = parseInt(e.target.value)}/>
+        <input type="text" name="servicefee" id="servicefee" onChange={(e) => building.servicefee = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="carfee">carfee</label>
-        <input type="text" name="carfee" id="carfee" onChange={(e) => building.carfee = parseInt(e.target.value)}/>
+        <input type="text" name="carfee" id="carfee" onChange={(e) => building.carfee = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="motofee">motofee</label>
-        <input type="text" name="motofee" id="motofee" onChange={(e) => building.motofee = parseInt(e.target.value)}/>
+        <input type="text" name="motofee" id="motofee" onChange={(e) => building.motofee = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="waterfee">waterfee</label>
-        <input type="text" name="waterfee" id="waterfee" onChange={(e) => building.waterfee = parseInt(e.target.value)}/>
+        <input type="text" name="waterfee" id="waterfee" onChange={(e) => building.waterfee = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="electricityfee">electricityfee</label>
-        <input type="text" name="electricityfee" id="electricityfee" onChange={(e) => building.electricityfee = parseInt(e.target.value)}/>
+        <input type="text" name="electricityfee" id="electricityfee" onChange={(e) => building.electricityfee = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="totalNumberOfAvailableRooms">totalNumberOfAvailableRooms</label>
-        <input type="text" name="totalNumberOfAvailableRooms" id="totalNumberOfAvailableRooms" onChange={(e) => building.totalNumberOfAvailableRooms = parseInt(e.target.value)}/>
+        <input type="text" name="totalNumberOfAvailableRooms" id="totalNumberOfAvailableRooms" onChange={(e) => building.totalNumberOfAvailableRooms = parseInt(e.target.value)} />
       </li>
       <li>
         <label htmlFor="deposit">deposit</label>
-        <input type="text" name="deposit" id="deposit" onChange={(e) => building.deposit = e.target.value}/>
+        <input type="text" name="deposit" id="deposit" onChange={(e) => building.deposit = e.target.value} />
       </li>
       <li>
         <label htmlFor="desc">desc</label>
-        <input type="text" name="desc" id="desc" onChange={(e) => building.desc = e.target.value}/>
+        <input type="text" name="desc" id="desc" onChange={(e) => building.desc = e.target.value} />
       </li>
       <li>
         <label htmlFor="images">images</label>
-        <input type="file" name="images" id="images" onChange={(e) => building.images = e.target.files[0]}/>
+        <input type="file" name="images" id="images" onChange={(e) => building.images = e.target.files[0]} />
       </li>
       <div>
         <button onClick={() => createBuildingBtnHandler(api, building)}>Confirm</button>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
