@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../assets/css/buildingEditPage.css";
 
 function BuildingCreatePage({ api }) {
   const districts = [
@@ -64,18 +65,20 @@ function BuildingCreatePage({ api }) {
         return Promise.reject(error);
       }
     );
-    const fd = new FormData();
-    fd.append("files", building.images);
 
     axios
       .post(api + "/building", building)
       .then((resp) => {
         let buildingId = resp.data.id;
         console.log(building.images);
-        axios
-          .post(api + "/image/upload-images-vids/" + buildingId, fd)
-          .then(() => navigator("/building-search"))
-          .catch((err) => console.log(err));
+        for (let it of building.images) {
+          const fd = new FormData();
+          fd.append("files", it);
+          axios
+            .post(api + "/image/upload-images-vids/" + buildingId, fd)
+            .then(() => navigator("/building-search"))
+            .catch((err) => console.log(err));
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -198,13 +201,13 @@ function BuildingCreatePage({ api }) {
 
               <div className="row">
                 <div className="item">
-                  <label htmlFor="desc">Mô tả chi tiết</label>
+                  <label htmlFor="description">Mô tả chi tiết</label>
                   <textarea
-                    name="desc"
+                    name="description"
                     id="desc"
                     rows="500"
                     cols="500"
-                    onChange={(e) => (building.desc = e.target.value)}
+                    onChange={(e) => (building.description = e.target.value)}
                   ></textarea>
                 </div>
               </div>

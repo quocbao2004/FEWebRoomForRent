@@ -88,3 +88,23 @@
 .post-room #totalNumberOfAvailableRooms {
   width: 200px;
 }
+
+.post-room .images-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post-room .images {
+  margin: 20px;
+}
+
+.post-room .image {
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: cover;
+  margin: 10px;
+}
+
+.post-room .btn-delete {
+  height: 40px;
+}

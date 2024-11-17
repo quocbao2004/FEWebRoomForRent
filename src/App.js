@@ -25,7 +25,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<HomePage api={api} />} />
-        <Route path="building-edit/:id" element={<BuildingEditPages />} />
+        <Route
+          path="building-edit"
+          element={<BuildingEditPages useRefAPI={useRefAPI} />}
+        />
         <Route
           path="building-search"
           element={<BuildingSearchPage api={api} />}

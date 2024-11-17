@@ -5,12 +5,13 @@ import "../assets/css/buildingDetail.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function BuildingDetail({ useRefAPI }) {
   const location = useLocation();
   const id = location.state.id;
+  const navigator = useNavigate();
 
   const [building, setBuilding] = useState({
     name: "",
@@ -52,6 +53,10 @@ function BuildingDetail({ useRefAPI }) {
     autoplay: true,
   };
 
+  function navigateToBuildingEditPage(id) {
+    navigator("/building-edit", { state: { id: id } });
+  }
+
   return (
     <div>
       <Header />
@@ -72,8 +77,8 @@ function BuildingDetail({ useRefAPI }) {
                           {fileType.localeCompare(".mp4") == 0 ? (
                             <video
                               className="slide-content"
-                              width="750"
-                              height="500"
+                              // width="750"
+                              // height="500"
                               controls
                               key={idx}
                             >
@@ -100,9 +105,11 @@ function BuildingDetail({ useRefAPI }) {
               <div className="-detail-common">
                 <h2 className="detail-title">
                   Thông tin bất động sản
-                  <i class="fa-solid fa-pen-to-square edit-building">
-                    <Link to="../building-edit/"></Link>
-                  </i>
+                  <button
+                    onClick={() => navigateToBuildingEditPage(building.id)}
+                  >
+                    <i class="fa-solid fa-pen-to-square edit-building"></i>
+                  </button>
                 </h2>
                 <h3 className="name">{building.name}</h3>
                 <p className="title">Địa chỉ: </p>

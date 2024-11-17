@@ -49,7 +49,7 @@ function Warehouse({ api }) {
 
   useEffect(() => {
     axios
-      .get(api + "/building?type=KHO_XUONG")
+      .get(api + "/building?type=KHO")
       .then((res) => {
         setRecords(res.data);
       })
