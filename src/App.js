@@ -15,6 +15,7 @@ import Admin from "./pages/Admin.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ForgotPassword2 from "./pages/ForgotPassword2.jsx";
 import { useRef } from "react";
 
 function App() {
@@ -55,6 +56,10 @@ function App() {
         <Route path="edit-profile" element={<EditProfile api={api} />} />
         <Route path="change-password" element={<ChangePassword api={api} />} />
         <Route path="forgot-password" element={<ForgotPassword api={api} />} />
+        <Route
+          path="forgot-password-2"
+          element={<ForgotPassword2 api={api} />}
+        />
       </Routes>
     </BrowserRouter>
   );

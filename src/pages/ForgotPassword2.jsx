@@ -49,33 +49,18 @@ function ChangePassword({ api }) {
             <h1 className="title">Quên mật khẩu</h1>
             <form onSubmit={handleSubmit}>
               <label>
-                username
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                />
-              </label>
-              {/* <label>
                 Mã xác thực:
                 <input
                   className="Ma"
-                  type="password"
+                  type="number"
                   name="oldPassword"
                   value={formData.oldPassword}
                   onChange={handleChange}
                 />
-                {showTimer && (
-                  <div className="oclock">
-                    {time > 0
-                      ? `${minutes < 10 ? "0" : ""}${minutes}:${
-                          seconds < 10 ? "0" : ""
-                        }${seconds}`
-                      : "0:00"}
-                  </div>
-                )}
-              </label> */}
+                <button type="submit" className="btn">
+                  Gửi mã
+                </button>
+              </label>
 
               <div className="action">
                 <button className="btn-grad">
@@ -84,9 +69,11 @@ function ChangePassword({ api }) {
                   </Link>
                 </button>
 
-                <Link className="btn-grad" to="../forgot-password-2">
-                  Tiếp tục
-                </Link>
+                <button className="btn-grad">
+                  <Link className="cancel" to="../change-password">
+                    Xác nhận
+                  </Link>
+                </button>
               </div>
             </form>
           </div>
