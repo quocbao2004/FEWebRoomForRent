@@ -1,71 +1,259 @@
-.detail .edit-building {
-  margin-left: 10px;
+/* Tổng thể của trang */
+.detail {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.detail .edit-building:hover {
-  color: var(--primary-color);
-  cursor: pointer;
-}
-
-.detail .body {
+/* Tiêu đề trang */
+.detail .detail-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
   display: flex;
-  margin: 100px 0;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
 }
 
+.detail .detail-title .btn-edit,
+.detail .detail-title .btn-delete {
+  padding: 10px 20px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.detail .detail-title .btn-edit {
+  background-color: #17a2b8;
+}
+
+.detail .detail-title .btn-edit:hover {
+  background-color: #138496;
+  transform: scale(1.05);
+}
+
+.detail .detail-title .btn-delete {
+  background-color: #dc3545;
+}
+
+.detail .detail-title .btn-delete:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* Slider */
 .detail .slide {
-  width: 50%;
-  height: 80vh;
+  margin-bottom: 30px;
 }
 
-.detail .slide .slide-content {
-  width: 70%;
-  height: 100%;
-  max-height: 80vh;
-  border-radius: 18px;
-  object-fit: cover;
-}
-
-.detail .detail-content {
-  display: inline-block;
-  width: 50%;
-  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.3);
-  padding: 30px 80px 30px 30px;
-}
-
-.detail .title-block {
-  display: block;
+.detail .slide-content {
   width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.detail .item {
-  /* display: flex; */
-  /* align-items: center; */
-  margin: 0 10px 10px 0;
+/* Popup */
+.detail .popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-.detail .characteristic .title {
-  margin-right: 5px;
+
+.detail .popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
+.detail .popup-close-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.detail .popup-close-button:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* Các phần thông tin */
+.detail .characteristic {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.detail .characteristic .title-block {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 15px;
+  border-left: 4px solid #007bff;
+  padding-left: 10px;
 }
 
 .detail .characteristic .list-item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
-.detail .detail-title {
-  font-size: 3rem;
+.detail .characteristic .item {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.detail .desc {
-  display: flex;
-  flex-wrap: wrap;
+.detail .characteristic .item .title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
 }
 
-.detail .title {
+.detail .characteristic .item .value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Mô tả */
+.detail .description {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.detail .description .title {
   font-size: 1.8rem;
-  font-weight: 600;
-  margin: 5px 0;
-  /* display: inline; */
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.detail .description .desc {
+  font-size: 1.4rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+/* Nút bấm */
+.detail .btn-grad {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 20px;
+}
+
+.detail .btn-grad:hover {
+  background: linear-gradient(to right, #2575fc, #6a11cb);
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detail {
+    padding: 15px;
+  }
+
+  .detail .detail-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail .btn-edit,
+  .detail .btn-delete {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .detail .slide-content {
+    max-height: 300px;
+  }
+
+  .detail .characteristic .list-item {
+    grid-template-columns: 1fr;
+  }
+}
+/* Zalo Contact Section */
+.zalo-contact {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.zalo-contact .zalo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #0078ff;
+  font-weight: bold;
+  font-size: 1rem;
+  gap: 10px;
+}
+
+.zalo-contact .zalo-link img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.zalo-contact .zalo-link:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.zalo-contact .zalo-link:hover {
+  color: #0056b3;
 }

@@ -1,39 +1,49 @@
-// export default LoginPages;
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../assets/css/loginPages.css";
 import logo from "../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png";
+import { api } from "../script/common";
 
-function LoginPages({ useRefAPI }) {
-  const naviagte = useNavigate();
-  let apiRef = useRefAPI.current;
+function LoginPages() {
+  const navigate = useNavigate();
 
-  let userData = {
+  const [userData, setUserData] = useState({
     phone: "",
     password: "",
-  };
+  });
 
+  // Xử lý khi nhấn Login
   function loginBtnHandler(e) {
-    e.preventDefault();
+    e.preventDefault(); // Ngăn hành vi mặc định của form
     const userLogin = {
       phone: userData.phone,
       password: userData.password,
     };
 
     axios
-      .post(apiRef + "/users/login", userLogin)
+      .post(api + "/users/login", userLogin)
       .then(function (resp) {
+        // Assume API response contains `role` directly
+        const role = resp.data.role || "ADMIN"; // Fallback to "USER" if no role provided
+        localStorage.setItem("role", role);
         localStorage.setItem("token", resp.data);
-        naviagte("/home");
+        // Điều hướng dựa trên role
+        if (role === "ADMIN") {
+          navigate("/home");
+        } else {
+          navigate("/unauthorized");
+        }
       })
       .catch(function (err) {
-        console.log(err);
+        console.error(err);
+        alert("Đăng nhập thất bại!");
       });
   }
 
+  // Cập nhật dữ liệu khi người dùng nhập
   function handleChange(e) {
-    userData = { ...userData, [e.target.name]: e.target.value };
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   }
 
   return (
@@ -41,18 +51,19 @@ function LoginPages({ useRefAPI }) {
       <div className="login">
         <div className="body">
           <div className="back">
-            <Link to="../home">
+            <button onClick={() => navigate("/home")}>
               <img src={logo} alt="Nhà trọ giá rẻ Sài Gòn" className="logo" />
-            </Link>
+            </button>
 
-            <Link to="../home" className="backToHome">
+            <button onClick={() => navigate("/home")} className="backToHome">
               Trang chủ
-            </Link>
+            </button>
           </div>
-          <div class="wrapper">
-            <form action="">
+          <div className="wrapper">
+            {/* Thẻ form bao bọc toàn bộ input và nút */}
+            <form onSubmit={loginBtnHandler}>
               <h1>Login</h1>
-              <div class="input-box">
+              <div className="input-box">
                 <input
                   type="text"
                   name="phone"
@@ -60,9 +71,9 @@ function LoginPages({ useRefAPI }) {
                   required
                   onChange={handleChange}
                 />
-                <i class="bx bxs-user"></i>
+                <i className="bx bxs-user"></i>
               </div>
-              <div class="input-box">
+              <div className="input-box">
                 <input
                   type="password"
                   name="password"
@@ -70,21 +81,24 @@ function LoginPages({ useRefAPI }) {
                   required
                   onChange={handleChange}
                 />
-                <i class="bx bxs-lock-alt"></i>
+                <i className="bx bxs-lock-alt"></i>
               </div>
-              <div class="remember-forgot">
-                <Link to="../forgot-password">
-                  <a href="#">Forgot Password</a>
-                </Link>
+              <div className="remember-forgot">
+                <button
+                  type="button"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot Password
+                </button>
               </div>
-              <button type="submit" class="btn" onClick={loginBtnHandler}>
+              {/* Nút Login có type="submit" */}
+              <button type="submit" className="btn">
                 Login
               </button>
             </form>
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   );
 }

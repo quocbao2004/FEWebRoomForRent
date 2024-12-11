@@ -3,8 +3,18 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { api } from "../script/common";
 
 function BuildingEditPages({ useRefAPI }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role !== "ADMIN") {
+      navigate("/unauthorized"); // Chuyển hướng nếu không phải ADMIN
+    }
+  }, [navigate]);
+
   let newBuilding = {
     name: "",
     id: null,
@@ -66,7 +76,7 @@ function BuildingEditPages({ useRefAPI }) {
     street: "",
     floorArea: null,
     managerName: "",
-    managerPhone: "",
+    managerphone: "",
     rentPrice: null,
     servicefee: null,
     carfee: null,
@@ -78,11 +88,10 @@ function BuildingEditPages({ useRefAPI }) {
     description: "",
     images: null,
   });
-
   const id = location.state.id;
   useEffect(() => {
     axios
-      .get(useRefAPI.current + "/building?id=" + id)
+      .get(api + "/building?id=" + id)
       .then((resp) => {
         setBuilding(resp.data[0]);
       })
@@ -101,10 +110,10 @@ function BuildingEditPages({ useRefAPI }) {
       }
     );
     axios
-      .delete(useRefAPI.current + "/image/" + fileName)
+      .delete(api + "/image/" + fileName)
       .then(() => {
         axios
-          .get(useRefAPI.current + "/building?fileName=" + fileName)
+          .get(api + "/building?fileName=" + fileName)
           .then(() => {
             console.log("Delete image successful");
             window.location.reload();
@@ -128,9 +137,15 @@ function BuildingEditPages({ useRefAPI }) {
     fd.append("files", image);
 
     axios
-      .post(useRefAPI.current + "/image/upload-images-vids/" + id, fd)
-      .then(navigator("/building-edit", { state: { id: id } }))
-      .catch((err) => console.log(err));
+      .post(api + "/image/upload-images-vids/" + id, fd)
+      .then(() => {
+        alert("Image uploaded successfully!");
+        window.location.reload(); // Reload the page
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Failed to upload image. Please try again.");
+      });
   }
 
   function newBuildingOnChange(e) {
@@ -156,30 +171,43 @@ function BuildingEditPages({ useRefAPI }) {
       }
     );
     axios
-      .post(useRefAPI.current + "/building", building)
+      .post(api + "/building", building)
       .then((resp) => {
         let buildingId = resp.data.id;
 
         if (newImages) {
-          for (let it of newImages) {
+          const uploadPromises = Array.from(newImages).map((it) => {
             const fd = new FormData();
             fd.append("files", it);
-            axios
-              .post(
-                useRefAPI.current + "/image/upload-images-vids/" + buildingId,
-                fd
-              )
-              .then(navigator("/building-edit", { state: { id: id } }))
-              .catch((err) => console.log(err));
-          }
+            return axios.post(
+              api + "/image/upload-images-vids/" + buildingId,
+              fd
+            );
+          });
+
+          Promise.all(uploadPromises)
+            .then(() => {
+              alert("Building updated and images uploaded successfully!");
+              window.location.reload(); // Reload the page
+            })
+            .catch((err) => {
+              console.error(err);
+              alert("Failed to upload images. Please try again.");
+            });
+        } else {
+          alert("Building updated successfully!");
+          window.location.reload(); // Reload the page
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error(err);
+        alert("Failed to update building. Please try again.");
+      });
   }
 
   return (
     <div id={building.id}>
-      <Header />
+      <Header useRefAPI={useRefAPI} />
       <div className="post-room">
         <div className="main-content">
           <h1>Chỉnh sửa hồ sơ bất động sản</h1>
@@ -337,7 +365,7 @@ function BuildingEditPages({ useRefAPI }) {
                     type="text"
                     name="managerphone"
                     id="managerphone"
-                    value={building.managerPhone}
+                    value={building.managerphone}
                     onChange={newBuildingOnChange}
                   />
                 </div>
@@ -445,33 +473,25 @@ function BuildingEditPages({ useRefAPI }) {
                     let lastIdxOfDot = image.lastIndexOf(".");
                     let s = image.substring(lastIdxOfDot);
                     return (
-                      <div key={idx} className="images">
-                        {s.localeCompare(".mp4") == 0 ? (
-                          <video
-                            width="750"
-                            height="500"
-                            controls
-                            key={idx}
-                            className="image"
-                          >
+                      <div className="images" key={idx}>
+                        {s.localeCompare(".mp4") === 0 ? (
+                          <video width="100%" height="auto" controls>
                             <source
-                              src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
+                              src={`${api}/image/display-image-vid?filename=${image}`}
                               type="video/mp4"
-                              className="image"
                             />
                           </video>
                         ) : (
                           <img
-                            src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
-                            key={idx}
-                            className="image"
+                            src={`${api}/image/display-image-vid?filename=${image}`}
+                            alt="uploaded preview"
                           />
                         )}
                         <button
-                          className="btn-grad btn-delete"
+                          className="btn-edit-pages"
                           onClick={() => deleteImage(image)}
                         >
-                          Delete image
+                          Xoá
                         </button>
                       </div>
                     );
@@ -479,6 +499,7 @@ function BuildingEditPages({ useRefAPI }) {
                 : null}
             </div>
             <input
+              className="btn-img"
               type="file"
               name="images"
               id="images"
@@ -487,7 +508,7 @@ function BuildingEditPages({ useRefAPI }) {
             />
 
             <div class="action">
-              <button className="btn-grad" onClick={confirmEditHandler}>
+              <button className="btn-submit" onClick={confirmEditHandler}>
                 Thay đổi
               </button>
             </div>

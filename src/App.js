@@ -15,50 +15,32 @@ import Admin from "./pages/Admin.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
-import ForgotPassword2 from "./pages/ForgotPassword2.jsx";
-import { useRef } from "react";
+import UnauthorizedPage from "./pages/UnauthorizedPage.jsx";
+import Blog1 from "./pages/Blog1.jsx";
 
 function App() {
-  const api = "http://localhost:8080/api";
-  const useRefAPI = useRef();
-  useRefAPI.current = api;
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<HomePage api={api} />} />
-        <Route
-          path="building-edit"
-          element={<BuildingEditPages useRefAPI={useRefAPI} />}
-        />
-        <Route
-          path="building-search"
-          element={<BuildingSearchPage api={api} />}
-        />
-        <Route path="home" element={<HomePage useRefAPI={useRefAPI} />} />
+        <Route index element={<HomePage />} />
+        <Route path="building-edit" element={<BuildingEditPages />} />
+        <Route path="building-search" element={<BuildingSearchPage />} />
+        <Route path="home" element={<HomePage />} />
         <Route path="sercurity-policy" element={<SecurityPolicy />} />
-        <Route
-          path="/login"
-          index
-          element={<LoginPages useRefAPI={useRefAPI} />}
-        />
-        <Route path="warehouse" element={<Warehouse api={api} />} />
-        <Route path="land" element={<Land api={api} />} />
-        <Route
-          path="/detail"
-          element={<BuildingDetail useRefAPI={useRefAPI} />}
-        />
+        <Route path="/login" index element={<LoginPages />} />
+        <Route path="warehouse" element={<Warehouse />} />
+        <Route path="land" element={<Land />} />
+        <Route path="/detail" element={<BuildingDetail />} />
         <Route path="/customer" element={<ListCustomer />} />
-        <Route
-          path="/create-building"
-          element={<BuildingCreatePage api={api} />}
-        />
+        <Route path="/create-building" element={<BuildingCreatePage />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="edit-profile" element={<EditProfile api={api} />} />
-        <Route path="change-password" element={<ChangePassword api={api} />} />
-        <Route path="forgot-password" element={<ForgotPassword api={api} />} />
+        <Route path="edit-profile" element={<EditProfile />} />
+        <Route path="change-password" element={<ChangePassword />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="unauthorized" element={<UnauthorizedPage />} />
         <Route
-          path="forgot-password-2"
-          element={<ForgotPassword2 api={api} />}
+          path="blog-meo-tiet-kiem-chi-phi-cho-sinh-vien"
+          element={<Blog1 />}
         />
       </Routes>
     </BrowserRouter>

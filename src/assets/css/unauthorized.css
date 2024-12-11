@@ -1,0 +1,58 @@
+/* Tổng thể trang */
+.unauthorized-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #ff7e5f, #feb47b);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  text-align: center;
+}
+
+/* Tiêu đề */
+.unauthorized-container h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Nút quay lại */
+.unauthorized-container button {
+  padding: 12px 24px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #ff7e5f;
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.unauthorized-container button:hover {
+  background: #ff7e5f;
+  color: #fff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Trang trí thêm */
+.unauthorized-container .icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  animation: shake 0.5s infinite alternate;
+}
+
+/* Hiệu ứng lắc cho icon */
+@keyframes shake {
+  from {
+    transform: translateX(-5px);
+  }
+  to {
+    transform: translateX(5px);
+  }
+}

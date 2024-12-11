@@ -4,13 +4,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import homeBackground from "../assets/img/home-img/homeslide.webp";
 import "../assets/css/home.css";
-import Zalo from "../assets/img/index-img/zalo_icon.png";
-import Why from "../assets/img/index-img/service1f.webp";
-import Service from "../assets/img/index-img/service.webp";
-
+import { api } from "../script/common";
 import axios from "axios";
 
-function HomePage({ useRefAPI }) {
+function HomePage() {
   const [records, setRecords] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,16 +55,12 @@ function HomePage({ useRefAPI }) {
 
   useEffect(() => {
     axios
-      .get(useRefAPI.current + "/building?type=")
+      .get(api + "/building?type=")
       .then((res) => {
         setRecords(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
-
-  function navigateToBuildingDetailPage(id) {
-    navigate("/detail", { state: { id: id } });
-  }
 
   let customerData = {
     fullName: "",
@@ -77,20 +70,43 @@ function HomePage({ useRefAPI }) {
   };
 
   function createCustomerHandler(e) {
-    customerData = { ...customerData, [e.target.name]: e.target.value };
+    // Update the `customerData` object dynamically
+    customerData = { ...customerData, [e.target.name]: e.target.value.trim() };
+
+    // Log the updated customerData for debugging
+    console.log("Updated customer data:", customerData);
   }
 
   function createCustomer() {
-    console.log(customerData);
+    // Validate fields before making the API call
+    if (!customerData.fullName || !customerData.phone || !customerData.demand) {
+      alert("Please fill in all required fields before submitting.");
+      return;
+    }
+
+    // Log customerData for debugging
+    console.log("Sending customer data:", customerData);
+
     axios
-      .post(useRefAPI.current + "/customer/add-customer", customerData)
-      .then(alert("Gửi thông tin thành công!!"))
-      .catch(alert("Gửi thông tin thất bại. Vui lòng thử lại sau"));
+      .post(api + "/customer/add-customer", customerData)
+      .then((response) => {
+        console.log("Customer created successfully:", response.data);
+        alert("Your information has been submitted successfully!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error creating customer:", error);
+        if (error.response && error.response.data) {
+          alert(`Error: ${error.response.data.message}`);
+        } else {
+          alert("An unexpected error occurred. Please try again later.");
+        }
+      });
   }
 
   return (
     <>
-      <Header useRefAPI={useRefAPI} />
+      <Header />
       <div class="preloader"></div>
 
       <div className="home">
@@ -100,7 +116,7 @@ function HomePage({ useRefAPI }) {
             target="_blank"
             className="message"
           >
-            <i class="fa-regular fa-message message"></i>Liên hệ
+            <i class="fa-regular fa-message message"></i>&nbsp;&nbsp;Liên hệ
           </a>
         </div>
         {/* Slider */}
@@ -124,196 +140,178 @@ function HomePage({ useRefAPI }) {
 
         {/* Intro */}
         <div id="introduction">
-          <div className="main-content">
-            <div className="body">
-              <div className="row">
-                <div className="row-why">
-                  <img src={Why} alt="" className="why-img" />
-                </div>
-
-                <div className="row-why">
-                  <h2 className="title">Tại sao nên chọn chúng tôi ?</h2>
-                  <ul className="menu">
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">Phòng cho thuê giá rẻ</p>
-                        <p className="desc">
-                          Chúng tôi cam kết cung cấp phòng trọ với giá cả hợp
-                          lý, phù hợp cho sinh viên, người đi làm và người mới
-                          đến thành phố. Giá chỉ từ 1.200.000 đ
-                        </p>
-                      </div>
-                    </li>
-
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">
-                          Chất lượng dịch vụ vượt trội
-                        </p>
-                        <p className="desc">
-                          Với đội ngũ chăm sóc khách hàng nhiệt tình, chúng tôi
-                          luôn sẵn sàng hỗ trợ bạn trong quá trình tìm kiếm và
-                          thuê nhà.
-                        </p>
-                      </div>
-                    </li>
-
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">Vị trí thuận lợi</p>
-                        <p className="desc">
-                          Các phòng trọ của chúng tôi đều nằm ở những khu vực
-                          gần trung tâm, dễ dàng di chuyển đến các chợ, bến xe,
-                          công ty, và các tiện ích công cộng.
-                        </p>
-                      </div>
-                    </li>
-
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">
-                          An ninh và môi trường sống lành mạnh
-                        </p>
-                        <p className="desc">
-                          Đảm bảo môi trường sống an toàn, vệ sinh, và tiện nghi
-                          với hệ thống an ninh hiện đại và quản lý chuyên
-                          nghiệp.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+          <h2>Tại sao nên chọn chúng tôi?</h2>
+          <p class="intro-desc">
+            Chúng tôi tự hào là đơn vị hàng đầu trong lĩnh vực cung cấp dịch vụ
+            cho thuê phòng trọ và nhà ở tại khu vực Sài Gòn. Với kinh nghiệm lâu
+            năm cùng đội ngũ chuyên nghiệp, chúng tôi luôn nỗ lực không ngừng để
+            mang đến những giải pháp tối ưu, giúp khách hàng dễ dàng tìm được
+            nơi ở phù hợp nhất. Dưới đây là những giá trị vượt trội mà chúng tôi
+            cam kết mang đến cho bạn:
+          </p>
+          <ul class="menu">
+            <li class="item">
+              <div class="item-content">
+                <p class="sub-title">Chất lượng dịch vụ vượt trội</p>
+                <p class="desc">
+                  Chúng tôi không chỉ cung cấp dịch vụ thuê phòng mà còn mang
+                  đến trải nghiệm khách hàng hoàn hảo. Đội ngũ hỗ trợ luôn sẵn
+                  sàng tư vấn, giải đáp mọi thắc mắc và đồng hành cùng bạn trong
+                  suốt quá trình thuê nhà.
+                </p>
               </div>
-
-              <div className="row">
-                <div className="row-why">
-                  <h2 className="title">Chúng tôi cung cấp các dịch vụ gì?</h2>
-                  <ul className="menu">
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">
-                          Phòng trọ cho thuê với nhiều lựa chọn
-                        </p>
-                        <p className="desc">
-                          Từ phòng đơn giản đến phòng đầy đủ tiện nghi, đáp ứng
-                          nhu cầu đa dạng của khách hàng.
-                        </p>
-                      </div>
-                    </li>
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">
-                          Nhà nguyên căn cho thuê dài hạn
-                        </p>
-                        <p className="desc">
-                          Đối với những gia đình hoặc nhóm bạn muốn có không
-                          gian riêng tư, chúng tôi cung cấp nhà nguyên căn rộng
-                          rãi, thoáng mát.
-                        </p>
-                      </div>
-                    </li>
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">Dịch vụ sửa chữa và bảo trì</p>
-                        <p className="desc">
-                          Đội ngũ sửa chữa chuyên nghiệp, luôn sẵn sàng hỗ trợ
-                          khi bạn cần bảo trì hoặc cải thiện không gian sống.
-                        </p>
-                      </div>
-                    </li>
-                    <li className="item item-show show">
-                      <div className="tick">✔</div>
-                      <div className="item-content">
-                        <p className="sub-title">Đăng tin cho thuê</p>
-                        <p className="desc">
-                          Nếu bạn là chủ nhà, hãy đăng tin trên hệ thống của
-                          chúng tôi để tìm người thuê một cách nhanh chóng và
-                          hiệu quả.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div className="row-why">
-                  <img src={Service} alt="" className="why-img" />
-                </div>
+            </li>
+            <li class="item">
+              <div class="item-content">
+                <p class="sub-title">Phòng trọ đa dạng, giá cả hợp lý</p>
+                <p class="desc">
+                  Dù bạn là sinh viên, nhân viên văn phòng, hay hộ gia đình,
+                  chúng tôi đều có những lựa chọn phù hợp với bạn. Với mức giá
+                  khởi điểm chỉ từ
+                  <strong>1.200.000 VNĐ/tháng</strong>, chúng tôi mang đến nhiều
+                  loại phòng, từ cơ bản đến cao cấp.
+                </p>
               </div>
+            </li>
+            <li class="item">
+              <div class="item-content">
+                <p class="sub-title">Vị trí thuận lợi</p>
+                <p class="desc">
+                  Các phòng trọ của chúng tôi nằm ở các khu vực trung tâm, gần
+                  các tiện ích quan trọng như chợ, siêu thị, trường học, và bệnh
+                  viện. Bạn có thể dễ dàng di chuyển đến nơi làm việc hoặc học
+                  tập mà không mất quá nhiều thời gian.
+                </p>
+              </div>
+            </li>
+            <li class="item">
+              <div class="item-content">
+                <p class="sub-title">Môi trường sống an ninh và lành mạnh</p>
+                <p class="desc">
+                  Với hệ thống an ninh hiện đại, đội ngũ quản lý chuyên nghiệp
+                  và môi trường sống sạch sẽ, chúng tôi đảm bảo rằng nơi ở của
+                  bạn sẽ luôn an toàn, yên tĩnh và thoải mái.
+                </p>
+              </div>
+            </li>
+            <li class="item">
+              <div class="item-content">
+                <p class="sub-title">Tiện ích đi kèm hiện đại</p>
+                <p class="desc">
+                  Chúng tôi cung cấp nhiều tiện ích đi kèm như internet tốc độ
+                  cao, máy giặt chung, bãi giữ xe an toàn và hệ thống camera
+                  giám sát 24/7, giúp bạn tiết kiệm thời gian và nâng cao chất
+                  lượng cuộc sống.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div className="customer-reviews">
+          <h2 className="reviews-title">Đánh giá từ khách hàng</h2>
+          <div className="reviews-list">
+            <div className="review-item">
+              <p className="review-text">
+                "Dịch vụ thật tuyệt vời, tôi đã tìm được phòng trọ ưng ý chỉ
+                trong một ngày! Nhân viên hỗ trợ rất nhiệt tình."
+              </p>
+              <p className="review-author">- Nguyễn Văn An</p>
+            </div>
+            <div className="review-item">
+              <p className="review-text">
+                "Phòng rất sạch sẽ và an ninh. Tôi cảm thấy rất an tâm khi sống
+                ở đây."
+              </p>
+              <p className="review-author">- Trần Thị Bích Ngọc</p>
+            </div>
+            <div className="review-item">
+              <p className="review-text">
+                "Giá cả hợp lý và nhiều tiện ích, tôi rất hài lòng với lựa chọn
+                của mình."
+              </p>
+              <p className="review-author">- Lê Nguyễn Khánh Vân</p>
             </div>
           </div>
         </div>
 
-        {/* Featured Model */}
-        <div className="featured">
-          <div className="main-content">
-            <h2 className="title-featured">Phòng nổi bật</h2>
-            <div className="list">
-              {records.map(function (it, idx) {
-                if (idx > 2) return;
-                return (
-                  <div key={idx} className="item">
-                    <a href="#">
-                      {it.images.map((image, idx) => {
-                        if (idx > 0) return;
-                        let lastIdxOfDot = it.images[0].lastIndexOf(".");
-                        let s = image.substring(lastIdxOfDot);
-                        return (
-                          <div key={idx}>
-                            {s.localeCompare(".mp4") == 0 ? (
-                              <video
-                                class="thumb"
-                                width="750"
-                                height="500"
-                                controls
-                                key={idx}
-                              >
-                                <source
-                                  src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
-                                  type="video/mp4"
-                                />
-                              </video>
-                            ) : (
-                              <img
-                                class="thumb"
-                                src={`http://localhost:8080/api/image/display-image-vid?filename=${image}`}
-                                key={idx}
-                              />
-                            )}
-                          </div>
-                        );
-                      })}
-                    </a>
-                    <div class="body">
-                      <h3 class="title line-clamp">
-                        <a href="#" class="line-clamp">
-                          {it.name}
-                        </a>
-                      </h3>
-                      <p class="sub-title line-clamp">
-                        Giá: {it.rentPrice}tr/ tháng
-                      </p>
-                      <div class="info">
-                        <p className="desc line-clamp">{it.description}</p>
-                      </div>
-                      <div className="action">
-                        <button
-                          onClick={() => navigateToBuildingDetailPage(it.id)}
-                          className="btn-grad"
-                        >
-                          Xem
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+        <div className="blog-section">
+          <h2 className="blog-title">Blog & Tin tức</h2>
+          <div className="blog-list">
+            <div className="blog-item">
+              <img src="path-to-image.jpg" alt="Tips" className="blog-img" />
+              <h3 className="blog-heading">5 Mẹo tiết kiệm chi phí thuê trọ</h3>
+              <p className="blog-desc">
+                Bạn có biết cách nào để giảm bớt chi phí khi thuê phòng không?
+                Xem ngay bài viết này để biết thêm chi tiết!
+              </p>
+              <a
+                href="https://venturefestbristolandbath.com/meo-tiet-kiem-chi-phi-khi-o-nha-tro-cho-sinh-vien/"
+                className="btn-grad"
+              >
+                Đọc tiếp
+              </a>
             </div>
+            <div className="blog-item">
+              <img src="path-to-image.jpg" alt="Guide" className="blog-img" />
+              <h3 className="blog-heading">Hướng dẫn chọn phòng trọ phù hợp</h3>
+              <p className="blog-desc">
+                Những yếu tố quan trọng cần lưu ý khi tìm kiếm một nơi ở an toàn
+                và thoải mái.
+              </p>
+              <a
+                href="https://ttttlease.com/kinh-nghiem-thue-phong-tro-cho-sinh-vien/"
+                className="btn-grad"
+              >
+                Đọc tiếp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="faq-section">
+          <h2 className="faq-title">Câu hỏi thường gặp</h2>
+          <div className="faq-list">
+            <div className="faq-item">
+              <h3 className="faq-question">Làm thế nào để đặt phòng?</h3>
+              <p className="faq-answer">
+                Bạn có thể đặt phòng trực tiếp trên website hoặc liên hệ qua số
+                hotline của chúng tôi để được hỗ trợ.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">
+                Phương thức thanh toán như thế nào?
+              </h3>
+              <p className="faq-answer">
+                Chúng tôi hỗ trợ nhiều phương thức thanh toán bao gồm tiền mặt,
+                chuyển khoản, và ví điện tử.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">
+                Phòng trọ có được phép nuôi thú cưng không?
+              </h3>
+              <p className="faq-answer">
+                Một số phòng cho phép nuôi thú cưng, vui lòng kiểm tra thông tin
+                chi tiết trước khi đặt phòng.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="partners-section">
+          <h2 className="partners-title">Đối tác của chúng tôi</h2>
+          <div className="partners-list">
+            <p className="no-partners">
+              Hiện tại chúng tôi đang làm việc với nhiều đối tác uy tín. Thông
+              tin sẽ được cập nhật sớm!
+            </p>
+            <img
+              src="placeholder-image.jpg"
+              alt="Đang cập nhật"
+              className="placeholder-image"
+            />
           </div>
         </div>
 
@@ -386,28 +384,37 @@ function HomePage({ useRefAPI }) {
                   </button>
                 </div>
 
-                <div className="contact-manager">
-                  <p className="desc">Hoặc liên hệ qua</p>
-                  <div className="list-icon">
+                {/* <div class="contact-manager">
+                  <p class="desc">Hoặc liên hệ qua</p>
+                  <div class="list-icon">
                     <a
-                      href="https://www.facebook.com/profile.php?id=100004721740519"
+                      href="https://facebook.com"
                       target="_blank"
-                      className="font-icon"
+                      class="font-icon"
                     >
                       <i class="fa-brands fa-facebook"></i>
                     </a>
-                    <a href="https://zalo.me/0909437393" target="_blank">
-                      <img src={Zalo} alt="" className="img-zalo" />
-                    </a>
                     <a
-                      href="https://www.youtube.com/@nguyenkhang0111"
+                      href="https://zalo.me"
                       target="_blank"
-                      className="font-icon"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src="/assets/img/index-img/zalo_icon.png"
+                        alt="Zalo"
+                        className="zalo-icon"
+                      />
+                    </a>
+
+                    <a
+                      href="https://youtube.com"
+                      target="_blank"
+                      class="font-icon"
                     >
                       <i class="fa-brands fa-youtube"></i>
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

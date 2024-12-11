@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "../assets/css/header.css";
 import logo from "../assets/img/index-img/NHA_TRO_NGUYEN_KHANG-removebg-preview.png";
 import axios from "axios";
+import { api } from "../script/common";
 
-function Header({ useRefAPI }) {
+function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userRef = useRef(null);
   const navigator = useNavigate();
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userRef.current && !userRef.current.contains(event.target)) {
@@ -28,34 +28,6 @@ function Header({ useRefAPI }) {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
-
-  // function Logout() {
-  //   if (!localStorage.getItem("token")) return;
-
-  //   let Token = localStorage.getItem("token");
-  //   axios.interceptors.request.use(
-  //     (config) => {
-  //       const token = localStorage.getItem("token");
-  //       if (token) {
-  //         config.headers["Authorization"] = `Bearer ${token}`;
-  //         console.log("Authorization header:", config.headers["Authorization"]);
-  //       }
-  //       return config;
-  //     },
-  //     (error) => Promise.reject(error)
-  //   );
-  //   let tokenRequest = {
-  //     token: Token,
-  //   };
-
-  //   axios
-  //     .post(useRefAPI.current + "/users/logout", tokenRequest)
-  //     .then((resp) => {
-  //       localStorage.removeItem("token");
-  //       // window.location.reload();
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
 
   // Di chuyển interceptor ra ngoài để áp dụng cho tất cả các yêu cầu axios
   axios.interceptors.request.use(
@@ -75,7 +47,7 @@ function Header({ useRefAPI }) {
 
     const tokenRequest = { token: Token };
     axios
-      .post(useRefAPI.current + "/users/logout", tokenRequest, {
+      .post(api + "/users/logout", tokenRequest, {
         headers: { Authorization: `Bearer ${Token}` },
       })
       .then((resp) => {
@@ -93,15 +65,36 @@ function Header({ useRefAPI }) {
     setIsMenuOpen(!isMenuOpen); // Chuyển đổi giữa hiển thị và ẩn menu
   };
 
+  //----------------------------------------------------------Chuyen trang--------------------------------------------------
   function navigateToLoginPage() {
-    navigator("/login", useRefAPI);
+    navigator("/login");
   }
+
+  function navigateToHomePage() {
+    navigator("/home");
+  }
+
+  function navigateToAdminPage() {
+    navigator("/admin");
+  }
+
+  function navigateToBuildingSearchPage() {
+    navigator("/building-search");
+  }
+
+  function navigateToWareHousePage() {
+    navigator("/warehouse");
+  }
+
+  function navigateToLandPage() {
+    navigator("/land");
+  }
+  //----------------------------------------------------------End Chuyen trang--------------------------------------------------
 
   return (
     <header className="header fixed">
       <div className="main-content">
         <div className="body">
-          {/* Logo */}
           <Link
             to="../home"
             onClick={() => {
@@ -118,29 +111,31 @@ function Header({ useRefAPI }) {
           <nav className={`nav ${isActive ? "active" : ""}`}>
             <ul>
               <li>
-                <Link to="../home" className="item">
+                <button onClick={navigateToHomePage} className="item">
                   Trang chủ
-                </Link>
+                </button>
               </li>
 
               <li className="item">
-                {isLoggedIn && <Link to="../admin">Trang quản trị</Link>}
+                {isLoggedIn && (
+                  <button onClick={navigateToAdminPage}>Trang quản trị</button>
+                )}
               </li>
 
               <li>
-                <Link to="../building-search" className="item">
+                <button onClick={navigateToBuildingSearchPage} className="item">
                   Tìm trọ - nhà
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="../warehouse" className="item">
+                <button onClick={navigateToWareHousePage} className="item">
                   Thuê kho xưởng
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="../land" className="item">
+                <button onClick={navigateToLandPage} className="item">
                   Thuê đất
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>
@@ -163,16 +158,16 @@ function Header({ useRefAPI }) {
                 {isMenuOpen && (
                   <ul className="user_list">
                     <li className="item">
-                      <Link to="../home" className="user-link">
+                      <button to="../home" className="user-link">
                         <i class="fa-solid fa-user"></i>
                         Trang quản trị
-                      </Link>
+                      </button>
                     </li>
                     <li className="item">
-                      <Link to="../home" className="user-link">
+                      <button to="../home" className="user-link">
                         <i className="fa-solid fa-user-pen"></i>
                         Chỉnh sửa thông tin cá nhân
-                      </Link>
+                      </button>
                     </li>
                     <li className="item">
                       <button onClick={Logout} className="user-link">

@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "react-table";
-import { FaTrash, FaCommentDots } from "react-icons/fa"; // Import icon xóa và Zalo
+import { FaTrash } from "react-icons/fa";
 import zalo from "../assets/img/index-img/zalo_icon.png";
 
-const DataTable = ({ data, onDeleteSelected }) => {
+const DataTable = ({ data, onDelete }) => {
   const [tableData, setTableData] = useState(data);
-  const [selectedRows, setSelectedRows] = useState({});
-
-  useEffect(() => {
-    setTableData(data);
-  }, [data]);
-
-  const statusOptions = ["Đang xử lý", "Hoàn thành", "Hủy bỏ"];
 
   useEffect(() => {
     setTableData(data);
@@ -25,7 +18,7 @@ const DataTable = ({ data, onDeleteSelected }) => {
       },
       {
         Header: "Tên",
-        accessor: "name",
+        accessor: "fullname",
       },
       {
         Header: "Số điện thoại",
@@ -37,33 +30,14 @@ const DataTable = ({ data, onDeleteSelected }) => {
       },
       {
         Header: "Mô tả",
-        accessor: "description",
-      },
-      {
-        Header: "Tình trạng",
-        accessor: "status",
-        Cell: ({ row }) => (
-          <select
-            style={{ height: "40px", fontSize: "1.5rem" }}
-            value={row.original.status}
-            // onChange={(e) =>
-            //   handleStatusChange(row.original.id, e.target.value)
-            // }
-          >
-            {statusOptions.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select>
-        ),
+        accessor: "demand",
       },
       {
         Header: "Thao tác",
         Cell: ({ row }) => (
           <div style={{ display: "flex", gap: "10px" }}>
             <button
-              onClick={() => handleDelete(row.original.id)}
+              onClick={() => onDelete(row.original.id)}
               style={{
                 backgroundColor: "transparent",
                 border: "none",
@@ -72,7 +46,6 @@ const DataTable = ({ data, onDeleteSelected }) => {
             >
               <FaTrash color="red" size={20} />
             </button>
-
             <a
               href={`https://zalo.me/${row.original.phone}`}
               target="_blank"
@@ -93,38 +66,11 @@ const DataTable = ({ data, onDeleteSelected }) => {
         ),
       },
     ],
-    [selectedRows]
+    [onDelete]
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data: tableData });
-
-  const handleDelete = (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xoá?")) {
-      const newData = tableData.filter((item) => item.id !== id);
-      setTableData(newData);
-    }
-  };
-
-  const handleZalo = (phone) => {
-    window.alert(`Liên hệ qua Zalo với số điện thoại: ${phone}`);
-  };
-
-  const handleDeleteSelected = () => {
-    const selectedIds = Object.keys(selectedRows).filter(
-      (key) => selectedRows[key]
-    );
-    if (selectedIds.length === 0) {
-      window.alert("Vui lòng chọn ít nhất một dòng để xóa.");
-      return;
-    }
-    if (window.confirm("Bạn có chắc chắn muốn xoá những mục đã chọn?")) {
-      const newData = tableData.filter((item) => !selectedRows[item.id]);
-      setTableData(newData);
-      setSelectedRows({}); // Xóa hết lựa chọn sau khi xóa
-      if (onDeleteSelected) onDeleteSelected(selectedIds);
-    }
-  };
 
   return (
     <div style={{ maxHeight: "400px", overflowY: "auto" }}>

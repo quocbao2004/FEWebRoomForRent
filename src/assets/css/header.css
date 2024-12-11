@@ -17,15 +17,51 @@ a {
   text-decoration: none;
 }
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 100px; /* Adjust width */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Centering if needed */
+  margin: 0 auto; /* Center horizontally */
+  cursor: pointer; /* Show pointer for buttons */
+  background-color: transparent;
+  border: none;
 }
+
 .no-break {
   white-space: nowrap;
   text-wrap: nowrap;
 }
 .desc {
   font-size: 1.6rem;
+}
+.btn-submit {
+  margin: 20px;
+  background-color: #171100;
+  color: #fff;
+  width: 150px;
+  height: 50px;
+  border-radius: 14px;
+  margin: 0 10px;
+}
+.btn-img {
+  background-color: #ddd;
+  color: #000;
+  margin: 20px;
+}
+
+.btn-edit {
+  margin-top: 10px;
+  background-color: #171100;
+  color: #fff;
+  width: 50px;
+  height: 30px;
+  border-radius: 14px;
+  margin: 0 10px;
+}
+
+.btn-submit:hover {
+  background-color: var(--primary-hover);
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
 }
 .main-content {
   position: relative;
@@ -54,6 +90,7 @@ a {
   top: -28px;
   z-index: 1;
 }
+
 .header .body {
   display: flex;
   align-items: center;
@@ -63,27 +100,40 @@ a {
   display: flex;
   margin-left: auto;
 }
+
 .nav ul {
   display: flex;
+  justify-content: space-around;
   list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
-.nav a {
-  position: relative;
-  padding: 8px 21px;
-  font-size: 1.9rem;
+
+.nav button {
+  padding: 10px 20px;
+  font-size: 1.8rem;
   color: #171100;
   font-weight: 500;
   line-height: 1.5;
-  display: flex;
-  align-items: center;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
 }
-.nav a:hover,
-.nav li.active a {
-  text-shadow: 1px 0 0 currentColor;
-  color: #fff;
-  border-radius: 999px;
+
+.nav button:hover {
   background-color: var(--primary-hover);
-  transition: all 0.4s ease-in-out;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.nav li {
+  margin: 0 5px;
+}
+
+.nav {
+  gap: 10px;
 }
 
 .btn-grad {
@@ -110,7 +160,7 @@ a {
 }
 
 .btn-grad:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-position: right center;
   color: #fff;
   text-decoration: none;
 }
@@ -131,13 +181,12 @@ a {
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  /* box-shadow: 0 0 20px #eee; */
   border-radius: 10px;
   display: block;
 }
 
 .sign-up-btn:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-position: right center;
   color: #fff;
   text-decoration: none;
 }

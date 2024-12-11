@@ -1,55 +1,112 @@
+/* Khu vực chỉnh sửa thông tin cá nhân */
 .edit-profile {
-  min-height: 60vh;
+  margin: 50px auto;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: #333;
 }
 
-.edit-profile .main-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Tiêu đề */
+.edit-profile .title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff;
 }
 
-.edit-profile .body {
-  margin: 100px 0;
-  box-shadow: 4px 3px 65px -3px rgba(0, 0, 0, 0.1);
-  padding: 50px;
-  border: 1px solid #ddd;
-  border-radius: 30px;
-}
-
+/* Nhãn và input */
 .edit-profile label {
-  font-size: 1.8rem;
   display: block;
-  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
 }
 
 .edit-profile input {
-  font-size: 1.8rem;
-  display: block;
-  height: 40px;
-  border-radius: 30px;
-  margin-top: 5px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease-in-out;
 }
 
-.edit-profile .cancel {
-  color: #fff;
+.edit-profile input:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-.edit-profile .btn {
-  margin: 20px 20px 0px 0;
-}
-
+/* Khu vực các nút hành động */
 .edit-profile .action {
   display: flex;
-  flex-wrap: wrap;
-  margin-left: -15px;
-}
-
-.edit-profile .Ma {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.edit-profile .oclock {
-  font-size: 1.6rem;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
+}
+
+/* Nút lưu thay đổi */
+.edit-profile .btn-submit {
+  background: linear-gradient(to right, #007bff, #00d4ff);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  text-decoration: none;
+  text-align: center;
+}
+
+.edit-profile .btn-submit:hover {
+  background: linear-gradient(to right, #0056b3, #00b4d8);
+  transform: scale(1.05);
+}
+
+.edit-profile .btn-submit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Nút "Đổi mật khẩu" */
+.edit-profile .cancel {
+  background: transparent;
+  color: #007bff;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.edit-profile .cancel:hover {
+  color: #0056b3;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+  .edit-profile {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .edit-profile .title {
+    font-size: 20px;
+  }
+
+  .edit-profile input {
+    font-size: 14px;
+  }
+
+  .edit-profile .btn-submit {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
 }

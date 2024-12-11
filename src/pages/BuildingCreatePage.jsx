@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/buildingEditPage.css";
+import { api } from "../script/common";
 
-function BuildingCreatePage({ api }) {
+function BuildingCreatePage() {
+  const navigate = useNavigate();
+
+  // State management for building data and error messages
+  const [building, setBuilding] = useState({
+    name: "",
+    ward: "",
+    type: "",
+    district: "",
+    street: "",
+    floorArea: null,
+    managerName: "",
+    managerphone: "",
+    rentPrice: null,
+    servicefee: null,
+    carfee: null,
+    motofee: null,
+    waterfee: null,
+    electricityfee: null,
+    deposit: "",
+    totalNumberOfAvailableRooms: null,
+    description: "",
+    images: [],
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // List of districts
   const districts = [
     "Quận 1",
     "Quận 3",
@@ -31,325 +59,306 @@ function BuildingCreatePage({ api }) {
     "Huyện Nhà Bè",
   ];
 
-  const building = {
-    id: null,
-    name: "",
-    ward: "",
-    type: "",
-    district: "",
-    street: "",
-    floorArea: null,
-    managerName: "",
-    managerphone: "",
-    rentPrice: null,
-    servicefee: null,
-    carfee: null,
-    motofee: null,
-    waterfee: null,
-    electricityfee: null,
-    deposit: "",
-    totalNumberOfAvailableRooms: null,
-    description: "",
-    images: null,
-  };
-  const navigator = useNavigate();
+  // Redirect if the user is not an admin
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role !== "ADMIN") {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
-  function createBuildingBtnHandler(api, building) {
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBuilding((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle file input changes
+  const handleFileChange = (e) => {
+    setBuilding((prev) => ({ ...prev, images: Array.from(e.target.files) }));
+  };
+
+  // Validate and submit the form
+  const createBuildingBtnHandler = () => {
+    // Validation checks
+    if (
+      !building.name ||
+      !building.ward ||
+      !building.street ||
+      !building.district ||
+      !building.managerName ||
+      !building.managerphone ||
+      !building.rentPrice ||
+      !building.servicefee ||
+      !building.carfee ||
+      !building.motofee ||
+      !building.waterfee ||
+      !building.electricityfee ||
+      !building.deposit ||
+      !Array.isArray(building.images) ||
+      building.images.length === 0
+    ) {
+      setErrorMessage("Vui lòng điền đầy đủ thông tin cần thiết.");
+      return;
+    }
+
+    // Prepare and send the data
     let token = localStorage.getItem("token");
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.Authorization = "Bearer " + token;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
+    if (!token) {
+      setErrorMessage(
+        "Authorization token is missing. Vui lòng đăng nhập lại."
+      );
+      return;
+    }
 
     axios
-      .post(api + "/building", building)
-      .then((resp) => {
-        let buildingId = resp.data.id;
-        console.log(building.images);
-        for (let it of building.images) {
-          const fd = new FormData();
-          fd.append("files", it);
-          axios
-            .post(api + "/image/upload-images-vids/" + buildingId, fd)
-            .then(() => navigator("/building-search"))
-            .catch((err) => console.log(err));
-        }
+      .post(api + "/building", building, {
+        headers: { Authorization: "Bearer " + token },
       })
-      .catch((err) => console.log(err));
-  }
+      .then((resp) => {
+        const buildingId = resp.data.id;
+
+        // Upload images
+        const uploadPromises = building.images.map((file) => {
+          const formData = new FormData();
+          formData.append("files", file);
+          return axios.post(
+            `${api}/image/upload-images-vids/${buildingId}`,
+            formData,
+            {
+              headers: { Authorization: "Bearer " + token },
+            }
+          );
+        });
+
+        // Wait for all uploads to complete
+        Promise.all(uploadPromises)
+          .then(() => {
+            navigate("/building-search");
+          })
+          .catch((err) => {
+            setErrorMessage(
+              "Lỗi khi tải ảnh lên: " + (err.response?.data || err.message)
+            );
+          });
+      })
+      .catch((err) => {
+        setErrorMessage(
+          "Lỗi khi tạo tòa nhà: " + (err.response?.data || err.message)
+        );
+      });
+  };
+
   return (
     <div>
       <Header />
       <div className="post-room">
         <div className="main-content">
           <h1>Trang đăng tin</h1>
+          {errorMessage && <p className="error">{errorMessage}</p>}
           <div className="body">
             <div className="info">
               <h2 className="title">Thông tin</h2>
               <div className="row">
                 <div className="item">
-                  <label htmlFor="name">
-                    Tên phòng trọ &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="name">Tên phòng trọ *</label>
                   <input
                     type="text"
                     name="name"
                     id="name"
-                    onChange={(e) => (building.name = e.target.value)}
+                    value={building.name}
+                    onChange={handleChange}
                   />
                 </div>
-
                 <div className="item">
-                  <label htmlFor="type">
-                    Loại&nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="type">Loại *</label>
                   <select
                     name="type"
                     id="type"
-                    defaultValue=""
-                    onChange={(e) => (building.type = e.target.value)}
+                    value={building.type}
+                    onChange={handleChange}
                   >
-                    <option value="NGUYEN_CAN">Chọn loại nhà</option>
+                    <option value="" disabled>
+                      Chọn loại nhà
+                    </option>
                     <option value="NGUYEN_CAN">Nguyên căn</option>
                     <option value="PHONG_TRO">Phòng trọ</option>
                     <option value="KHO">Kho</option>
                     <option value="DAT">Đất</option>
                   </select>
                 </div>
-
                 <div className="item">
-                  <label htmlFor="floorArea">
-                    Diện tích&nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input
-                      type="number"
-                      name="floorArea"
-                      id="floorArea"
-                      onChange={(e) => (building.floorArea = e.target.value)}
-                    />
-                    <span className="metvuong">m²</span>
-                  </div>
+                  <label htmlFor="district">Quận *</label>
+                  <select
+                    name="district"
+                    id="district"
+                    value={building.district}
+                    onChange={handleChange}
+                  >
+                    <option value="" disabled>
+                      Chọn quận
+                    </option>
+                    {districts.map((district, index) => (
+                      <option key={index} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-
                 <div className="item">
-                  <label htmlFor="totalNumberOfAvailableRooms">
-                    Số phòng trống
-                  </label>
-                  <input
-                    onChange={(e) =>
-                      (building.totalNumberOfAvailableRooms = e.target.value)
-                    }
-                    type="number"
-                    name="totalNumberOfAvailableRooms"
-                    id="totalNumberOfAvailableRooms"
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="item">
-                  <label htmlFor="street">
-                    Đường&nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="street">Đường *</label>
                   <input
                     type="text"
                     name="street"
                     id="street"
-                    onChange={(e) => (building.street = e.target.value)}
+                    value={building.street}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="ward">
-                    Phường&nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="ward">Phường *</label>
                   <input
                     type="text"
                     name="ward"
                     id="ward"
-                    onChange={(e) => (building.ward = e.target.value)}
+                    value={building.ward}
+                    onChange={handleChange}
                   />
                 </div>
-
                 <div className="item">
-                  <form>
-                    <label htmlFor="district">
-                      Quận&nbsp;<strong className="strong">*</strong>{" "}
-                    </label>
-                    <select
-                      name="district"
-                      id="district"
-                      defaultValue=""
-                      onChange={(e) => (building.district = e.target.value)}
-                    >
-                      <option value="">Chọn quận</option>
-                      {districts.map((district, index) => (
-                        <option key={index} value={district}>
-                          {district}
-                        </option>
-                      ))}
-                    </select>
-                    {/* Các phần khác của form */}
-                  </form>
+                  <label htmlFor="floorArea">Diện tích *</label>
+                  <input
+                    type="number"
+                    name="floorArea"
+                    id="floorArea"
+                    value={building.floorArea || ""}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
-
               <div className="row">
                 <div className="item">
                   <label htmlFor="description">Mô tả chi tiết</label>
                   <textarea
                     name="description"
-                    id="desc"
-                    rows="500"
-                    cols="500"
-                    onChange={(e) => (building.description = e.target.value)}
+                    id="description"
+                    value={building.description}
+                    onChange={handleChange}
                   ></textarea>
+                </div>
+                <div className="item">
+                  <label htmlFor="images">Ảnh *</label>
+                  <input
+                    type="file"
+                    id="images"
+                    multiple
+                    onChange={handleFileChange}
+                  />
                 </div>
               </div>
             </div>
-
             <div className="info">
               <h2 className="title">Thông tin chủ cho thuê</h2>
               <div className="row">
                 <div className="item">
-                  <label htmlFor="managerName">
-                    Tên chủ cho thuê &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="managerName">Tên chủ *</label>
                   <input
                     type="text"
                     name="managerName"
                     id="managerName"
-                    onChange={(e) => (building.managerName = e.target.value)}
+                    value={building.managerName}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="managerphone">
-                    Số điện thoại chủ cho thuê &nbsp;
-                    <strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="managerphone">Số điện thoại *</label>
                   <input
                     type="text"
                     name="managerphone"
                     id="managerphone"
-                    onChange={(e) => (building.managerPhone = e.target.value)}
+                    value={building.managerphone}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
             </div>
-
             <div className="info">
               <h2 className="title">Các khoản phí</h2>
               <div className="row">
                 <div className="item">
-                  <label htmlFor="rentPrice">
-                    Giá thuê &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="rentPrice">Giá thuê *</label>
                   <input
                     type="number"
                     name="rentPrice"
                     id="rentPrice"
-                    onChange={(e) => (building.rentPrice = e.target.value)}
+                    value={building.rentPrice || ""}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="servicefee">
-                    Phí dịch vụ &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="servicefee">Phí dịch vụ *</label>
                   <input
                     type="number"
                     name="servicefee"
                     id="servicefee"
-                    onChange={(e) => (building.servicefee = e.target.value)}
+                    value={building.servicefee || ""}
+                    onChange={handleChange}
                   />
                 </div>
-
                 <div className="item">
-                  <label htmlFor="carfee">
-                    Phí ô tô &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="carfee">Phí ô tô *</label>
                   <input
                     type="number"
                     name="carfee"
                     id="carfee"
-                    onChange={(e) => (building.carfee = e.target.value)}
+                    value={building.carfee || ""}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="motofee">
-                    Phí xe máy &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="motofee">Phí xe máy *</label>
                   <input
                     type="number"
                     name="motofee"
                     id="motofee"
-                    onChange={(e) => (building.motofee = e.target.value)}
+                    value={building.motofee || ""}
+                    onChange={handleChange}
                   />
                 </div>
-              </div>
-
-              <div className="row">
                 <div className="item">
-                  <label htmlFor="waterfee">
-                    Nước &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="waterfee">Phí nước *</label>
                   <input
                     type="number"
                     name="waterfee"
                     id="waterfee"
-                    onChange={(e) => (building.waterfee = e.target.value)}
+                    value={building.waterfee || ""}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="electricityfee">
-                    Điện &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="electricityfee">Phí điện *</label>
                   <input
                     type="number"
                     name="electricityfee"
                     id="electricityfee"
-                    onChange={(e) => (building.electricityfee = e.target.value)}
+                    value={building.electricityfee || ""}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="deposit">
-                    Tiền cọc &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
+                  <label htmlFor="deposit">Tiền cọc *</label>
                   <input
                     type="number"
                     name="deposit"
                     id="deposit"
-                    onChange={(e) => (building.deposit = e.target.value)}
+                    value={building.deposit || ""}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
             </div>
-            <div className="info">
-              <div className="row">
-                <div className="item">
-                  <label htmlFor="images">
-                    Ảnh &nbsp;<strong className="strong">*</strong>{" "}
-                  </label>
-                  <input
-                    type="file"
-                    name="images"
-                    id="images"
-                    multiple="multiple"
-                    onChange={(e) => (building.images = e.target.files)}
-                  />
-                </div>
-              </div>
-            </div>
-
             <div className="action">
-              <button
-                className="btn-grad"
-                onClick={() => createBuildingBtnHandler(api, building)}
-              >
+              <button className="btn-grad" onClick={createBuildingBtnHandler}>
                 Đăng
               </button>
             </div>
